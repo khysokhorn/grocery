@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery/src/config/themes/light_theme.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/modules/home/view/productDetail.dart';
+import 'package:grocery/src/widgets/widgets.dart';
 
 class HomeWidget {
   Container search(TextEditingController controller) {
@@ -34,16 +35,15 @@ class HomeWidget {
           padding: const EdgeInsets.all(appDmPrimary - 5),
           margin: EdgeInsets.symmetric(horizontal: 10),
           alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: AppConstrant.appColorGrayCardBG,
-            shape: BoxShape.circle,
-          ),
+          decoration: containerBKDecore()..copyWith(color: Colors.red),
           child: Text(
             "$emoji",
             style: TextStyle(fontSize: 45),
           ),
         ),
-        SizedBox(height: appDmPrimary,),
+        SizedBox(
+          height: appDmPrimary,
+        ),
         Text("Title")
       ],
     );
@@ -120,8 +120,6 @@ class HomeWidget {
     );
   }
 
-
-
   Column productList({
     required String headTitle,
     required TextButton leadingButton,
@@ -162,6 +160,4 @@ class HomeWidget {
       ],
     );
   }
-
-
 }

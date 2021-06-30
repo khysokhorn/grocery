@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:grocery/src/config/themes/light_theme.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/modules/home/widgets/homeWidget.dart';
+import 'package:grocery/src/widgets/widgets.dart';
 
 class ProductDetailView extends StatefulWidget {
   const ProductDetailView({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -30,14 +32,21 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   snap: false,
                   floating: true,
                   flexibleSpace: FlexibleSpaceBar(
+                    collapseMode: CollapseMode.parallax,
+                    stretchModes: [
+                      StretchMode.zoomBackground,
+                    ],
                     background: SafeArea(
-                      child: Image.network(
-                        'https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png',
-                        fit: BoxFit.contain,
+                      child: Container(
+                        margin: const EdgeInsets.all(appDmPrimary * 2),
+                        child: Image.network(
+                          'https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png',
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
-                  backgroundColor: AppConstrant.appColorGra.withOpacity(0.1),
+                  backgroundColor: Colors.grey[100],
                   leading: IconButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -63,7 +72,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       ),
                     ),
                   ],
-                  expandedHeight: size.height * 0.35,
+                  expandedHeight: size.height * 0.30,
                 ),
                 SliverPadding(padding: const EdgeInsets.symmetric(vertical: appDmPrimary)),
                 SliverList(
@@ -79,64 +88,33 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                             // start
                             Text(
                               "Strawberry",
-                              style: titleStyle(),
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
                             ),
                             SizedBox(
-                              height: appDmPrimary - 10,
+                              height: appDmPrimary,
                             ),
                             Text(
                               "perkg",
                               style: appSubTitle,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.symmetric(
-                                    vertical: appDmPrimary,
+                            Container(
+                              margin: const EdgeInsets.only(right: appDmPrimary),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  addAndRemove(),
+                                  Text(
+                                    "\$4.99",
+                                    style: TextStyle(
+                                      color: AppConstrant.appColorRed,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
                                   ),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: AppConstrant.appColorBlack,
-                                      ),
-                                      borderRadius: BorderRadius.circular(appDmPrimary * 2)),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Container(
-                                        child: InkWell(
-                                          onTap: () {},
-                                          child: Icon(
-                                            Icons.remove,
-                                            color: AppConstrant.appColorBlack,
-                                          ),
-                                        ),
-                                        margin: const EdgeInsets.symmetric(horizontal: 2),
-                                        padding: const EdgeInsets.all(appDmPrimary - 10),
-                                      ),
-                                      Text(
-                                        "2",
-                                        style: titleStyle(),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.symmetric(horizontal: 2),
-                                        child: InkWell(
-                                          onTap: () {},
-                                          child: Icon(
-                                            Icons.add,
-                                            color: AppConstrant.appColorBlack,
-                                          ),
-                                        ),
-                                        padding: const EdgeInsets.all(appDmPrimary - 10),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Text("\$4.99", style: titleStyle()),
-                                // end
-                              ],
+                                ],
+                              ),
                             ),
                             Text(
                               "About the Product",
@@ -150,6 +128,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                 " convallis a pellentesque nec, egestas non nisi. Vestibulum "
                                 "ante ipsum primis in faucibus orci luctus et ultrices posuere "
                                 "cubilia Curae; Donec velit neque,",
+                                style: TextStyle(color: AppConstrant.appColorGra),
                               ),
                             ),
                           ],
@@ -168,43 +147,24 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                               color: AppConstrant.appColorGra.withOpacity(0.08),
                               borderRadius: BorderRadius.circular(appDmPrimary)),
                           padding: const EdgeInsets.all(appDmPrimary),
+                          margin: const EdgeInsets.all(10),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                child: Expanded(
-                                  child: Image.network(
-                                    'https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png',
-                                    fit: BoxFit.contain,
-                                  ),
+                                height: 120,
+                                child: Image.network(
+                                  'https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png',
+                                  fit: BoxFit.contain,
                                 ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Broccoli",
-                                        style: appTitleStyle,
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        "\$4.99 ",
-                                        style: appTitleStyle,
-                                      )
-                                    ],
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(shape: CircleBorder()),
-                                    child: Icon(Icons.add),
-                                  )
-                                ],
-                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Text("Strawberry"),
+                                  ],
+                                ),
+                              )
                             ],
                           ),
                         );
@@ -213,15 +173,15 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      mainAxisSpacing: appDmPrimary,
-                      crossAxisSpacing: appDmPrimary,
                     ),
                   ),
                 ),
+
                 // end section
+                // add more space for grid cart
                 SliverToBoxAdapter(
                   child: SizedBox(
-                    height: appDmPrimary * 3,
+                    height: appDmPrimary * 5,
                   ),
                 ),
                 /**/
@@ -233,6 +193,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             child: Card(
               margin: const EdgeInsets.all(0),
               child: Container(
+                decoration: shadowContaianerdecore(),
                 width: size.width,
                 padding: const EdgeInsets.all(appDmPrimary / 2),
                 child: Row(
@@ -270,9 +231,4 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       ),
     );
   }
-
-  TextStyle titleStyle() => TextStyle(
-        fontWeight: FontWeight.bold,
-        color: AppConstrant.appColorBlack,
-      );
 }

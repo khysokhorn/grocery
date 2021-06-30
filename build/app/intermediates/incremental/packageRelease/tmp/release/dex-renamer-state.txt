@@ -1,0 +1,4 @@
+#Wed Jun 30 11:14:53 ICT 2021
+base.0=/home/sokhorn/sokhorn/selfLearn/flutter/project/grocery/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

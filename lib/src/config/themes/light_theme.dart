@@ -42,3 +42,8 @@ TextStyle appTitleStyle = TextStyle(
   fontWeight: FontWeight.bold,
   color: AppConstrant.appColorLightBlack2,
 );
+
+TextStyle titleStyle() => TextStyle(
+        fontWeight: FontWeight.bold,
+        color: AppConstrant.appColorBlack,
+      );
