@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:grocery/src/config/themes/light_theme.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
-import 'package:grocery/src/modules/home/view/categoryDetailView.dart';
+import 'package:grocery/src/modules/subcategory/categoryDetailView.dart';
 import 'package:grocery/src/modules/home/widgets/homeWidget.dart';
+import 'package:grocery/src/utils/ui/ui_utils.dart';
+import 'package:grocery/src/widgets/widgets.dart';
 
 class ExploreView extends StatelessWidget {
   const ExploreView({Key? key}) : super(key: key);
@@ -10,84 +13,94 @@ class ExploreView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomeWidget homeWidget = HomeWidget();
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: buildAppBar(context),
-      body: Container(
-        margin: const EdgeInsets.all(appDmPrimary),
-        child: Column(
-          children: [
-            homeWidget.search(TextEditingController()),
-            SizedBox(
-              height: appDmPrimary,
-            ),
-            categoryList()
-          ],
-        ),
-      ),
-    );
-  }
-
-  Expanded categoryList() {
-    return Expanded(
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: appDmPrimary - 5,
-          mainAxisSpacing: appDmPrimary - 5,
-        ),
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return CategoryDetailView(
-                      categoryTitle: "Fresh Vegetables & Fruits",
-                    );
-                  },
-                ),
-              );
-            },
+      body: CustomScrollView(
+        physics: BouncingScrollPhysics(),
+        slivers: [
+          exploreAppBar(context, size),
+          SliverToBoxAdapter(
             child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(appDmPrimary - 5),
-                color: AppConstrant.appColorGrayCardBG.withOpacity(0.10),
+              child: search(),
+              margin: const EdgeInsets.all(appDmPrimary),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: appDmPrimary * 1.5,
+            ),
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 250.0,
+                crossAxisSpacing: appDmPrimary * 1.5,
+                mainAxisSpacing: appDmPrimary * 1.5,
               ),
-              child: Center(
-                child: Container(
-                  margin: const EdgeInsets.all(appDmPrimary),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.network(
-                        'https://www.nicepng.com/png/full/6-67893_fruits-vegetables-png-fruits-and-vegetables-png.png',
-                        fit: BoxFit.scaleDown,
-                      ),
-                      SizedBox(
-                        height: appDmPrimary - 5,
-                      ),
-                      Text(
-                        "Fresh Vegetables & Fruits",
-                        style: appTitleStyle.copyWith(
-                          color: AppConstrant.appColorLightBlack2,
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  return InkWell(
+                    borderRadius: appInweekRadius(),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return CategoryDetailView(
+
+                            );
+                          },
                         ),
-                        textAlign: TextAlign.center,
-                      )
-                    ],
-                  ),
-                ),
+                      );
+                    },
+                    child: Container(
+                      decoration: containerBKDecore(),
+                      child: Center(
+                        child: Container(
+                          margin: const EdgeInsets.all(appDmPrimary),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: appImgNetFadeIn(
+                                  url:
+                                      "https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png",
+                                ),
+                              ),
+                              SizedBox(
+                                height: appDmPrimary - 5,
+                              ),
+                              Text(
+                                "Fresh Vegetables & Fruits",
+                                style: appTitleStyle.copyWith(
+                                  color: AppConstrant.appColorLightBlack2,
+                                ),
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                childCount: 15,
               ),
             ),
-          );
-        },
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(
+              vertical: appDmPrimary,
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  AppBar buildAppBar(BuildContext context) {
-    return AppBar(
+  SliverAppBar exploreAppBar(BuildContext context, Size size) {
+    return SliverAppBar(
+      pinned: true,
+      automaticallyImplyLeading: false,
       leading: IconButton(
         onPressed: () {
           Navigator.pop(context);
@@ -100,9 +113,10 @@ class ExploreView extends StatelessWidget {
       title: Text(
         "Explore",
         style: TextStyle(
-          color: AppConstrant.appColorBlack,
+          color: Colors.black54,
         ),
       ),
+      centerTitle: true,
     );
   }
 }

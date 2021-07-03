@@ -74,3 +74,29 @@ BoxDecoration containerBKDecore() {
     borderRadius: BorderRadius.circular(appDmPrimary),
   );
 }
+
+// search
+
+Container search() => Container(
+      decoration: containerBKDecore(),
+      padding: const EdgeInsets.symmetric(
+        horizontal: appDmPrimary,
+        vertical: 2,
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+          border: InputBorder.none,
+          hintText: "Search",
+          icon: Icon(Icons.search),
+        ),
+      ),
+    );
+
+FadeInImage appImgNetFadeIn({required String url}) {
+  return FadeInImage.assetNetwork(
+    placeholder: "asset/images/comfortPlaceholder.png",
+    image: "$url",
+    fit: BoxFit.contain,
+  );
+}

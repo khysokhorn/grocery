@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
+import 'package:grocery/src/modules/checkout/checkView.dart';
 import 'package:grocery/src/widgets/widgets.dart';
 
 class CartView extends StatelessWidget {
@@ -14,6 +15,7 @@ class CartView extends StatelessWidget {
           children: [
             Expanded(
               child: CustomScrollView(
+                physics: BouncingScrollPhysics(),
                 slivers: [
                   SliverAppBar(
                     title: Text("Cart",
@@ -93,7 +95,6 @@ class CartView extends StatelessWidget {
                         );
                       },
                       childCount: 10,
-
                     ),
                   )
                 ],
@@ -106,7 +107,11 @@ class CartView extends StatelessWidget {
                 padding: const EdgeInsets.all(appDmPrimary),
                 width: size.width,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return CheckOutView();
+                    }));
+                  },
                   child: Text("Checkout"),
                 ),
               ),

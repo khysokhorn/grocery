@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:grocery/src/modules/test/helper/helper.dart';
-import 'package:grocery/src/modules/test/widget/promoteText.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../colors.dart';
 import '../exampleData.dart';
-import 'discountCard.dart';
-import 'fIconButton.dart';
-import 'headerClip.dart';
-import 'pandaHead.dart';
 
 class FAppBar extends SliverAppBar {
   final PageData data;
@@ -35,17 +30,8 @@ class FAppBar extends SliverAppBar {
   Color? get backgroundColor => scheme.surface;
 
   @override
-  Widget? get leading {
-    return FIconButton(iconData: Icons.arrow_back, onPressed: () {});
-  }
-
-  @override
-  List<Widget>? get actions {
-    return [
-      FIconButton(iconData: Icons.share_outlined, onPressed: () {}),
-      FIconButton(iconData: Icons.info_outline, onPressed: () {}),
-    ];
-  }
+  // TODO: implement automaticallyImplyLeading
+  bool get automaticallyImplyLeading => false;
 
   @override
   Widget? get title {
@@ -113,24 +99,7 @@ class FAppBar extends SliverAppBar {
         return FlexibleSpaceBar(
           collapseMode: CollapseMode.pin,
           background: Column(
-            children: [
-              Stack(
-                children: [
-                  PromoText(title: data.bannerText),
-                  const PandaHead(),
-                  Column(
-                    children: [
-                      HeaderClip(data: data, context: context),
-                      const SizedBox(height: 110),
-                    ],
-                  ),
-                ],
-              ),
-              DiscountCard(
-                title: data.optionalCard.title,
-                subtitle: data.optionalCard.subtitle,
-              ),
-            ],
+            children: [],
           ),
         );
       },

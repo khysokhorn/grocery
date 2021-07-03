@@ -1,4 +1,0 @@
-io/flutter/plugins/GeneratedPluginRegistrant.java
- io.flutter.plugins.GeneratedPluginRegistrant
-com/sokhorn/grocery/grocery/BuildConfig.java
- com.sokhorn.grocery.grocery.BuildConfig

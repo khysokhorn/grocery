@@ -26,6 +26,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           Container(
             margin: const EdgeInsets.only(bottom: appDmPrimary * 4),
             child: CustomScrollView(
+              physics: BouncingScrollPhysics(),
               slivers: [
                 SliverAppBar(
                   pinned: true,
@@ -39,10 +40,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     background: SafeArea(
                       child: Container(
                         margin: const EdgeInsets.all(appDmPrimary * 2),
-                        child: Image.network(
-                          'https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png',
-                          fit: BoxFit.contain,
-                        ),
+                        child: appImgNetFadeIn(
+                            url:
+                                "https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png"),
                       ),
                     ),
                   ),
@@ -153,9 +153,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                             children: [
                               Container(
                                 height: 120,
-                                child: Image.network(
-                                  'https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png',
-                                  fit: BoxFit.contain,
+                                child: appImgNetFadeIn(
+                                  url:
+                                      "https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png",
                                 ),
                               ),
                               Expanded(

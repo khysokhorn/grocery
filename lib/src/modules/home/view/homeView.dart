@@ -5,7 +5,10 @@ import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/modules/cart/cartView.dart';
 import 'package:grocery/src/modules/home/view/productDetail.dart';
 import 'package:grocery/src/modules/home/widgets/homeWidget.dart';
+import 'package:grocery/src/utils/ui/ui_utils.dart';
 import 'package:grocery/src/widgets/widgets.dart';
+
+import 'exploreView.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -27,6 +30,7 @@ class _HomeViewState extends State<HomeView> {
           appDmPrimary,
         ),
         child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
           slivers: [
             SliverAppBar(
               pinned: true,
@@ -64,23 +68,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ],
             ),
-            SliverToBoxAdapter(
-              child: Container(
-                decoration: containerBKDecore(),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: appDmPrimary,
-                  vertical: 2,
-                ),
-                child: TextField(
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                    border: InputBorder.none,
-                    hintText: "Search",
-                    icon: Icon(Icons.search),
-                  ),
-                ),
-              ),
-            ),
+            SliverToBoxAdapter(child: search()),
             SliverToBoxAdapter(
               child: banner(size),
             ),
@@ -149,7 +137,11 @@ class _HomeViewState extends State<HomeView> {
                     style: appTitleStyle,
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                        return ExploreView();
+                      }));
+                    },
                     child: Text("See All"),
                   )
                 ],
@@ -207,7 +199,7 @@ class _HomeViewState extends State<HomeView> {
             color: Colors.grey.withOpacity(0.06),
           ),
           child: InkWell(
-            borderRadius: BorderRadius.circular(appDmPrimary),
+            borderRadius: appInweekRadius(),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return ProductDetailView();
@@ -218,9 +210,9 @@ class _HomeViewState extends State<HomeView> {
               children: [
                 Expanded(
                   child: ClipRRect(
-                    child: Image.network(
-                      'https://www.myfamilyfirstchiro.com/wp-content/uploads/2016/06/Fresh-Vegetables.jpg',
-                      fit: BoxFit.cover,
+                    child: appImgNetFadeIn(
+                      url:
+                          "https://www.myfamilyfirstchiro.com/wp-content/uploads/2016/06/Fresh-Vegetables.jpg",
                     ),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(appDmPrimary),
@@ -374,9 +366,9 @@ class _HomeViewState extends State<HomeView> {
                 bottomRight: Radius.circular(appDmPrimary),
               ),
               clipBehavior: Clip.hardEdge,
-              child: Image.network(
-                'https://www.myfamilyfirstchiro.com/wp-content/uploads/2016/06/Fresh-Vegetables.jpg',
-                fit: BoxFit.cover,
+              child: appImgNetFadeIn(
+                url:
+                    "https://www.myfamilyfirstchiro.com/wp-content/uploads/2016/06/Fresh-Vegetables.jpg",
               ),
             ),
           )
