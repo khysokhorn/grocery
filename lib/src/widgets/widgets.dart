@@ -97,6 +97,6 @@ FadeInImage appImgNetFadeIn({required String url}) {
   return FadeInImage.assetNetwork(
     placeholder: "asset/images/comfortPlaceholder.png",
     image: "$url",
-    fit: BoxFit.contain,
+    fit: BoxFit.fill,
   );
 }

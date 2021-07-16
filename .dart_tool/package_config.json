@@ -8,6 +8,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "bloc",
+      "rootUri": "file:///home/sokhorn/.pub-cache/hosted/pub.dartlang.org/bloc-7.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///home/sokhorn/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0",
       "packageUri": "lib/",
@@ -50,6 +56,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "equatable",
+      "rootUri": "file:///home/sokhorn/.pub-cache/hosted/pub.dartlang.org/equatable-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "fake_async",
       "rootUri": "file:///home/sokhorn/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0",
       "packageUri": "lib/",
@@ -62,8 +74,26 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_bloc",
+      "rootUri": "file:///home/sokhorn/.pub-cache/hosted/pub.dartlang.org/flutter_bloc-7.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_test",
       "rootUri": "file:///home/sokhorn/Downloads/flutter/packages/flutter_test",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "http",
+      "rootUri": "file:///home/sokhorn/.pub-cache/hosted/pub.dartlang.org/http-0.13.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "http_parser",
+      "rootUri": "file:///home/sokhorn/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -80,8 +110,26 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "nested",
+      "rootUri": "file:///home/sokhorn/.pub-cache/hosted/pub.dartlang.org/nested-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "path",
       "rootUri": "file:///home/sokhorn/.pub-cache/hosted/pub.dartlang.org/path-1.8.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "pedantic",
+      "rootUri": "file:///home/sokhorn/.pub-cache/hosted/pub.dartlang.org/pedantic-1.11.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "provider",
+      "rootUri": "file:///home/sokhorn/.pub-cache/hosted/pub.dartlang.org/provider-5.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -158,7 +206,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-06-30T15:31:52.955885Z",
+  "generated": "2021-07-16T13:55:11.022032Z",
   "generator": "pub",
   "generatorVersion": "2.13.1"
 }

@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/src/config/themes/light_theme.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/modules/cart/cartView.dart';
-import 'package:grocery/src/modules/home/view/productDetail.dart';
+import 'package:grocery/src/modules/home/bloc/product_item_cubit.dart';
+import 'package:grocery/src/modules/home/model/productItem.dart';
 import 'package:grocery/src/modules/home/widgets/homeWidget.dart';
-import 'package:grocery/src/utils/ui/ui_utils.dart';
 import 'package:grocery/src/widgets/widgets.dart';
-
-import 'exploreView.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -23,7 +22,6 @@ class _HomeViewState extends State<HomeView> {
     HomeWidget homeWidget = HomeWidget();
     Size size = MediaQuery.of(context).size;
     List<String> categories = ['🥩', '🍊', '🧃', '🛍️'];
-    List<String> banners = ["", "", "", ""];
     return Scaffold(
       body: Container(
         margin: const EdgeInsets.all(
@@ -70,87 +68,34 @@ class _HomeViewState extends State<HomeView> {
             ),
             SliverToBoxAdapter(child: search()),
             SliverToBoxAdapter(
-              child: banner(size),
-            ),
-            // slider
-            // SliverToBoxAdapter(
-            //   child: CarouselSlider(
-            //     options: CarouselOptions(
-            //       enlargeCenterPage: true,
-            //       enableInfiniteScroll: true,
-            //       autoPlay: false,
-            //       height: 1,
-            //       scrollPhysics: BouncingScrollPhysics(),
-            //     ),
-            //     items: banners
-            //         .map(
-            //           (e) => Container(
-            //             decoration: containerBKDecore(),
-            //             child: Row(
-            //               children: [
-            //                 Expanded(
-            //                   child: Container(
-            //                     margin: const EdgeInsets.all(appDmPrimary - 10),
-            //                     child: Column(
-            //                       crossAxisAlignment: CrossAxisAlignment.center,
-            //                       mainAxisSize: MainAxisSize.min,
-            //                       children: [
-            //                         Text(
-            //                           "Enjoy the special offer up to 30%",
-            //                           textAlign: TextAlign.center,
-            //                           style: TextStyle(color: Colors.black, fontSize: 18),
-            //                         ),
-            //                         const SizedBox(
-            //                           height: appDmPrimary - 5,
-            //                         ),
-            //                         Text(
-            //                           "26-30 April 2021",
-            //                           style: TextStyle(color: Colors.grey),
-            //                           textAlign: TextAlign.center,
-            //                         ),
-            //                       ],
-            //                     ),
-            //                   ),
-            //                 ),
-            //                 Expanded(
-            //                   child: Image.network(
-            //                     'https://www.myfamilyfirstchiro.com/wp-content/uploads/2016/06/Fresh-Vegetables.jpg',
-            //                     fit: BoxFit.cover,
-            //                   ),
-            //                 )
-            //               ],
-            //             ),
-            //           ),
-            //         )
-            //         .toList(),
-            //   ),
-            // )
-            SliverToBoxAdapter(
-              child: categoriesList(categories, homeWidget),
+              child: HomeBanner(),
             ),
             SliverToBoxAdapter(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Exclusive Offer",
-                    style: appTitleStyle,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return ExploreView();
-                      }));
-                    },
-                    child: Text("See All"),
-                  )
-                ],
+              child: HomeCategory(
+                categories: categories,
+                homeWidget: homeWidget,
               ),
             ),
+           
             SliverToBoxAdapter(
               child: Container(
                 height: size.height * 0.3,
-                child: productLists(size),
+                child: BlocProvider<ProductItemCubit>(
+                  create: (context) {
+                    return ProductItemCubit()..getProduct();
+                  },
+                  child: BlocBuilder<ProductItemCubit, ProductItem?>(
+                    builder: (context, productItem) {
+                      if (productItem == null) {
+                        return Text("Please wait");
+                      } else
+                        return ProductList(
+                          size: size,
+                          productItem: productItem,
+                        );
+                    },
+                  ),
+                ),
               ),
             ),
             SliverToBoxAdapter(
@@ -168,12 +113,7 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
             ),
-            SliverToBoxAdapter(
-              child: Container(
-                height: size.height * 0.3,
-                child: productLists(size),
-              ),
-            ),
+
             // end content
             SliverToBoxAdapter(
               child: SizedBox(
@@ -185,195 +125,88 @@ class _HomeViewState extends State<HomeView> {
       ),
     );
   }
+}
 
-  ListView productLists(Size size) {
-    return ListView.builder(
-      physics: BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.symmetric(
-            horizontal: appDmPrimary - 5,
-          ),
-          decoration: containerBKDecore().copyWith(
-            color: Colors.grey.withOpacity(0.06),
-          ),
-          child: InkWell(
-            borderRadius: appInweekRadius(),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return ProductDetailView();
-              }));
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                    child: appImgNetFadeIn(
-                      url:
-                          "https://www.myfamilyfirstchiro.com/wp-content/uploads/2016/06/Fresh-Vegetables.jpg",
-                    ),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(appDmPrimary),
-                      topRight: Radius.circular(appDmPrimary),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(appDmPrimary),
-                  width: size.width * 0.5,
-                  child: Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Broccoli",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
-                          ),
-                          SizedBox(
-                            height: appDmPrimary - 10,
-                          ),
-                          Text("\$4.99")
-                        ],
-                      ),
-                      Container(
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.add,
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          shape: BoxShape.circle,
-                        ),
-                      )
-                    ],
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  ),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+class TittleWithSeeAll extends StatelessWidget {
+  final String title;
+  final String btnTitle;
+  final Function seeAllOnClick;
 
-  Container categoriesList(List<String> categories, HomeWidget homeWidget) {
-    return Container(
-      height: (45 + appDmPrimary) * 2,
-      child: ListView.builder(
-        itemCount: categories.length,
-        scrollDirection: Axis.horizontal,
-        physics: BouncingScrollPhysics(),
-        itemBuilder: (context, index) {
-          return homeWidget.categoryItem(emoji: "${categories[index]}");
-        },
-      ),
-    );
-  }
+  const TittleWithSeeAll({
+    Key? key,
+    required this.title,
+    required this.btnTitle,
+    required this.seeAllOnClick,
+  }) : super(key: key);
 
-  AppBar homeAppBar() {
-    return AppBar(
-      leading: IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.person,
-          color: AppConstrant.appColorBlack,
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "Exclusive Offer",
+          style: appTitleStyle,
         ),
-      ),
-      title: Text(
-        "Location",
-        style: TextStyle(
-          color: AppConstrant.appColorBlack,
-        ),
-      ),
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            Icons.favorite_border,
-            color: AppConstrant.appColorBlack,
-          ),
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return CartView();
-                },
-              ),
-            );
-          },
-          icon: Icon(
-            Icons.shopping_cart,
-            color: AppConstrant.appColorBlack,
-          ),
-        ),
-        SizedBox(
-          width: appDmPrimary,
-        ),
+        TextButton(
+          onPressed: () => seeAllOnClick,
+          child: Text("$btnTitle"),
+        )
       ],
     );
   }
-
-  Container banner(Size size) {
-    return Container(
-      decoration: containerBKDecore(),
-      margin: const EdgeInsets.symmetric(vertical: appDmPrimary),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Expanded(
-            flex: 1,
-            child: Container(
-              margin: const EdgeInsets.all(appDmPrimary - 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Enjoy the special offer up to 30%",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                  ),
-                  const SizedBox(
-                    height: appDmPrimary - 5,
-                  ),
-                  Text(
-                    "26-30 April 2021",
-                    style: TextStyle(color: Colors.grey),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(appDmPrimary),
-                bottomRight: Radius.circular(appDmPrimary),
-              ),
-              clipBehavior: Clip.hardEdge,
-              child: appImgNetFadeIn(
-                url:
-                    "https://www.myfamilyfirstchiro.com/wp-content/uploads/2016/06/Fresh-Vegetables.jpg",
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
 }
+
+// slider
+// SliverToBoxAdapter(
+//   child: CarouselSlider(
+//     options: CarouselOptions(
+//       enlargeCenterPage: true,
+//       enableInfiniteScroll: true,
+//       autoPlay: false,
+//       height: 1,
+//       scrollPhysics: BouncingScrollPhysics(),
+//     ),
+//     items: banners
+//         .map(
+//           (e) => Container(
+//             decoration: containerBKDecore(),
+//             child: Row(
+//               children: [
+//                 Expanded(
+//                   child: Container(
+//                     margin: const EdgeInsets.all(appDmPrimary - 10),
+//                     child: Column(
+//                       crossAxisAlignment: CrossAxisAlignment.center,
+//                       mainAxisSize: MainAxisSize.min,
+//                       children: [
+//                         Text(
+//                           "Enjoy the special offer up to 30%",
+//                           textAlign: TextAlign.center,
+//                           style: TextStyle(color: Colors.black, fontSize: 18),
+//                         ),
+//                         const SizedBox(
+//                           height: appDmPrimary - 5,
+//                         ),
+//                         Text(
+//                           "26-30 April 2021",
+//                           style: TextStyle(color: Colors.grey),
+//                           textAlign: TextAlign.center,
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//                 Expanded(
+//                   child: Image.network(
+//                     'https://www.myfamilyfirstchiro.com/wp-content/uploads/2016/06/Fresh-Vegetables.jpg',
+//                     fit: BoxFit.cover,
+//                   ),
+//                 )
+//               ],
+//             ),
+//           ),
+//         )
+//         .toList(),
+//   ),
+// )

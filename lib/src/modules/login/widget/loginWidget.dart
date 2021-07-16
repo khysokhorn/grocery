@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
 
 class LoginWidget {
-  Container inputForm({
-    required TextEditingController controller,
-    required Icon icon,
-    required String hint,
-  }) {
+  Container inputForm(
+      {TextEditingController? controller,
+      required Icon icon,
+      required String hint,
+      bool obscureText = false,
+      Function(String textChange)? onTextChange}) {
     return Container(
       padding: const EdgeInsets.only(left: appDmPrimary),
       decoration: BoxDecoration(
@@ -17,6 +18,8 @@ class LoginWidget {
         borderRadius: BorderRadius.circular(appDmPrimary - 5),
       ),
       child: TextField(
+        onChanged: onTextChange,
+        obscureText: obscureText,
         controller: controller,
         decoration: InputDecoration(
           icon: icon,

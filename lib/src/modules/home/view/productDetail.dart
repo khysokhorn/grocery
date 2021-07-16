@@ -14,7 +14,6 @@ class ProductDetailView extends StatefulWidget {
 
 class _ProductDetailViewState extends State<ProductDetailView> {
   HomeWidget homeWidget = HomeWidget();
-  List<String> categories = ['🥩', '🍊', '🧃', '🛍️', '🛍️'];
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +40,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       child: Container(
                         margin: const EdgeInsets.all(appDmPrimary * 2),
                         child: appImgNetFadeIn(
-                            url:
-                                "https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png"),
+                          url:
+                              "https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png",
+                        ),
                       ),
                     ),
                   ),
