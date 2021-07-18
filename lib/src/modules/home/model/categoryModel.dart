@@ -27,34 +27,23 @@ class CategoryModel {
 }
 
 class CategoryResultModel {
-  CategoryResultModel({
-    required this.id,
-    required this.title,
-    required this.imageUrl,
-    required this.createdAt,
-    required this.updatedAt,
-  });
+  CategoryResultModel(
+      {required this.id, required this.title, required this.imageUrl});
 
   int id;
   String title;
   String imageUrl;
-  DateTime createdAt;
-  DateTime updatedAt;
 
   factory CategoryResultModel.fromJson(Map<String, dynamic> json) =>
       CategoryResultModel(
         id: json["id"],
         title: json["title"],
         imageUrl: json["image_url"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
         "image_url": imageUrl,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
       };
 }

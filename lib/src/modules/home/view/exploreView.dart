@@ -12,7 +12,7 @@ class ExploreView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomeWidget homeWidget = HomeWidget();
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: CustomScrollView(
@@ -21,7 +21,7 @@ class ExploreView extends StatelessWidget {
           exploreAppBar(context, size),
           SliverToBoxAdapter(
             child: Container(
-              child: search(),
+             // search
               margin: const EdgeInsets.all(appDmPrimary),
             ),
           ),

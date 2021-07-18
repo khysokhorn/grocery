@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
+import 'package:grocery/src/modules/cart/bloc/cart_cubit.dart';
+import 'package:grocery/src/modules/cart/widget.dart';
 import 'package:grocery/src/modules/checkout/checkView.dart';
+import 'package:grocery/src/repository/cart/cartRepositoty.dart';
 import 'package:grocery/src/widgets/widgets.dart';
 
 class CartView extends StatelessWidget {
@@ -36,65 +40,36 @@ class CartView extends StatelessWidget {
                     floating: true,
                     snap: true,
                   ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return Container(
-                          margin: const EdgeInsets.symmetric(
-                            vertical: appDmPrimary - 5,
-                            horizontal: appDmPrimary,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color:
-                                            AppConstrant.appColorGrayCardBG.withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(
-                                          appDmPrimary - 10,
-                                        )),
-                                    child: Container(
-                                      child: Image.network(
-                                        'https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png',
-                                        fit: BoxFit.contain,
-                                      ),
-                                      margin: const EdgeInsets.all(5),
-                                      width: 85,
-                                      height: 85,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: appDmPrimary,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Strawberry"),
-                                      SizedBox(
-                                        height: appDmPrimary - 10,
-                                      ),
-                                      Text(
-                                        "\$4.99 \ kg",
-                                        style: TextStyle(
-                                            color: AppConstrant.appColorGrayCardBG
-                                                .withOpacity(1)),
-                                      ),
-                                    ],
-                                  )
-                                ],
+                  RepositoryProvider(
+                    create: (context) => CartRepository(),
+                    child: BlocProvider<CartCubit>(
+                      create: (context) => CartCubit(
+                        context.read<CartRepository>(),
+                      )..getCategory("1"),
+                      child: BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          print("state $state");
+                          if (state is CartInitial) {
+                            return SliverToBoxAdapter(
+                              child: Text("init cart"),
+                            );
+                          } else if (state is CartError) {
+                            return SliverToBoxAdapter(
+                              child: Text("Error with ${state.error}"),
+                            );
+                          } else if (state is CartSuccess) {
+                            var model = state.cartModel;
+                            return CartItem(
+                              cartModel: model,
+                            );
+                          } else
+                            return SliverToBoxAdapter(
+                              child: Center(
+                                child: CircularProgressIndicator.adaptive(semanticsLabel: "fldskf",),
                               ),
-                              addAndRemove()
-                            ],
-                          ),
-                        );
-                      },
-                      childCount: 10,
+                            );
+                        },
+                      ),
                     ),
                   )
                 ],
@@ -108,7 +83,8 @@ class CartView extends StatelessWidget {
                 width: size.width,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
                       return CheckOutView();
                     }));
                   },

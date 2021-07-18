@@ -15,7 +15,7 @@ class AppConstrant {
 //============== dimension ==============//
 const double appDmPrimary = 15.0;
 
-class _HexColor extends Color {
+class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {
     hexColor = hexColor.toUpperCase().replaceAll("#", "");
     if (hexColor.length == 6) {
@@ -24,5 +24,5 @@ class _HexColor extends Color {
     return int.parse(hexColor, radix: 16);
   }
 
-  _HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }

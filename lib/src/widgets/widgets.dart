@@ -1,4 +1,6 @@
+import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:grocery/src/config/themes/light_theme.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
 
@@ -77,26 +79,27 @@ BoxDecoration containerBKDecore() {
 
 // search
 
-Container search() => Container(
-      decoration: containerBKDecore(),
-      padding: const EdgeInsets.symmetric(
-        horizontal: appDmPrimary,
-        vertical: 2,
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-          border: InputBorder.none,
-          hintText: "Search",
-          icon: Icon(Icons.search),
-        ),
-      ),
-    );
-
 FadeInImage appImgNetFadeIn({required String url}) {
   return FadeInImage.assetNetwork(
     placeholder: "asset/images/comfortPlaceholder.png",
     image: "$url",
     fit: BoxFit.fill,
   );
+}
+
+class FadeImage extends StatelessWidget {
+  const FadeImage({Key? key, required this.imageUrl}) : super(key: key);
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeInImage.assetNetwork(
+      placeholder: "asset/images/comfortPlaceholder.png",
+      image: imageUrl,
+      fadeInCurve: Curves.easeInCirc,
+      fadeOutCurve: Curves.easeOutCirc,
+      width: 65,
+      height: 65,
+    );
+  }
 }

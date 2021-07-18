@@ -6,5 +6,8 @@ abstract class UserAccount {
     required String password,
   });
 
-   login({required String userEmail, required String password}) {}
+   login({
+    required String userEmail,
+    required String password,
+  }) {}
 }

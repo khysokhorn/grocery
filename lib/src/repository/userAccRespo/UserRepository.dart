@@ -1,9 +1,9 @@
+import 'package:grocery/src/repository/BaseRepository.dart';
 import 'package:grocery/src/repository/userAccRespo/userAccInterface.dart';
 
 import '../baseRequest.dart';
 
-class UserRepository implements UserAccount {
-  AppBaseRequest _baseRequest = AppBaseRequest();
+class UserRepository extends BaseRepository implements UserAccount   {
 
   @override
   Future<String>? createAccount(
@@ -13,7 +13,7 @@ class UserRepository implements UserAccount {
       required String password}) async {
     print(
         "===> user information  email $email name $userName phone number $phoneNumber pass $password");
-    return await _baseRequest.post(
+    return await  baseRequest.post(
       'register',
       {
         "name": "$userName",

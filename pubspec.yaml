@@ -23,7 +23,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  carousel_slider: ^4.0.0
+  scroll_to_index: ^2.0.0
+  visibility_detector: ^0.2.0
+  flutter_bloc: ^7.0.1
+  equatable: ^2.0.3
+  http:
+  bloc: ^7.0.0
+  google_fonts: ^2.1.0
+  #  local storage
+  hive: ^2.0.4
+  hive_flutter: ^1.0.0
+  path_provider: ^2.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -32,13 +43,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  carousel_slider: ^4.0.0
-  scroll_to_index: ^2.0.0
-  visibility_detector: ^0.2.0
-  flutter_bloc: ^7.0.1
-  equatable: ^2.0.3
-  http:
-  bloc: ^7.0.0
+  hive_generator: ^1.1.0
+  build_runner: ^2.0.1
+
 
 
 

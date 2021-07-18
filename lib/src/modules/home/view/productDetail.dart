@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grocery/src/config/themes/light_theme.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
-import 'package:grocery/src/modules/home/widgets/homeWidget.dart';
 import 'package:grocery/src/widgets/widgets.dart';
 
 class ProductDetailView extends StatefulWidget {
@@ -13,8 +12,6 @@ class ProductDetailView extends StatefulWidget {
 }
 
 class _ProductDetailViewState extends State<ProductDetailView> {
-  HomeWidget homeWidget = HomeWidget();
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -57,13 +54,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     ),
                   ),
                   actions: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.favorite_border,
-                        color: AppConstrant.appColorBlack,
-                      ),
-                    ),
                     IconButton(
                       onPressed: () {},
                       icon: Icon(
