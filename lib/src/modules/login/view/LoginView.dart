@@ -12,7 +12,6 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginWidget loginWidget = LoginWidget();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -32,8 +31,8 @@ class LoginView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            loginWidget.titleLogin("Login"),
-            loginWidget.inputForm(
+            LoginWithTitle(title: "Login"),
+            InputForm(
               controller: TextEditingController(),
               icon: Icon(
                 Icons.email_outlined,
@@ -44,7 +43,7 @@ class LoginView extends StatelessWidget {
             SizedBox(
               height: appDmPrimary * 2,
             ),
-            loginWidget.inputForm(
+            InputForm(
               controller: TextEditingController(),
               icon: Icon(
                 Icons.lock_outline,

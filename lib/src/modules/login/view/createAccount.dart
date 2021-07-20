@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/modules/login/bloc/register/create_account_bloc.dart';
 import 'package:grocery/src/modules/login/widget/loginWidget.dart';
-import 'package:grocery/src/repository/baseRequest.dart';
 import 'package:grocery/src/repository/userAccRespo/UserRepository.dart';
 
 import 'otpView.dart';
@@ -30,18 +29,8 @@ class _CreateAccountViewState extends State<CreateAccountView> {
 
   @override
   Widget build(BuildContext context) {
-    LoginWidget loginWidget = LoginWidget();
     Size size = MediaQuery.of(context).size;
-
-    AppBaseRequest appBaseRequest = AppBaseRequest();
-    appBaseRequest.get1(
-        "products",
-        (error) => () {
-              print(error);
-            },
-        (json) => () {
-              print("Success $json");
-            });
+    // register adapter for usr adapter here
 
     return Scaffold(
       appBar: AppBar(
@@ -67,8 +56,8 @@ class _CreateAccountViewState extends State<CreateAccountView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  loginWidget.titleLogin("Create your account"),
-                  loginWidget.inputForm(
+                  LoginWithTitle(title: "Create your account"),
+                  InputForm(
                     controller: userNameController,
                     icon: Icon(
                       Icons.person,
@@ -82,7 +71,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                   Container(
                     child: BlocBuilder<CreateAccountBloc, CreateAccountState>(
                       builder: (context, state) {
-                        return loginWidget.inputForm(
+                        return InputForm(
                           controller: emailController,
                           onTextChange: (email) {
                             context
@@ -101,7 +90,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                   SizedBox(
                     height: appDmPrimary * 2,
                   ),
-                  loginWidget.inputForm(
+                  InputForm(
                     icon: Icon(
                       Icons.phone_android,
                       color: AppConstrant.appColorPrimaryColor,
@@ -111,7 +100,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                   SizedBox(
                     height: appDmPrimary * 2,
                   ),
-                  loginWidget.inputForm(
+                  InputForm(
                     obscureText: true,
                     controller: passwordController,
                     icon: Icon(

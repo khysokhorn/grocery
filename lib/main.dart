@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:grocery/src/config/themes/light_theme.dart';
+import 'package:grocery/src/modules/login/usermodel.dart';
 import 'package:grocery/src/modules/login/view/splash.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,7 +12,10 @@ void main() async {
   HttpOverrides.global = new MyHttpOverrides();
   Directory directory = await getApplicationDocumentsDirectory();
   String path = directory.path;
-  Hive.init(path);
+  Hive
+    ..init(path)
+    ..registerAdapter(UserModelAdapter());
+  await Hive.openBox("UserModel");
   runApp(
     MyApp(),
   );

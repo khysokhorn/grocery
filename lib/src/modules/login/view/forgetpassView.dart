@@ -7,7 +7,6 @@ class ForgetPasswordView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginWidget loginWidget = LoginWidget();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -27,8 +26,10 @@ class ForgetPasswordView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            loginWidget.titleLogin("Forget Password?"),
-            loginWidget.inputForm(
+            LoginWithTitle(
+              title: "Forget Password?",
+            ),
+            InputForm(
               controller: TextEditingController(),
               icon: Icon(
                 Icons.email_outlined,

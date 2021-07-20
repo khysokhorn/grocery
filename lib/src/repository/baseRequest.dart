@@ -26,7 +26,7 @@ class AppBaseRequest {
     }
   }
 
-  Future<String> get1(
+  void get1(
     String endPoint,
     Function error(String error),
     Function success(String json),
@@ -43,11 +43,8 @@ class AppBaseRequest {
     print("===> get : body request $resBody");
     if (response.statusCode == 200) {
       success(resBody);
-      return resBody;
     } else {
-      print("===> get : body request error $resBody");
       error(jsonDecode(resBody)['message']);
-      throw Exception(jsonDecode(resBody)['message']);
     }
   }
 

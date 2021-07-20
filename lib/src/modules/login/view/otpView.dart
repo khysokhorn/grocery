@@ -8,7 +8,6 @@ class OTPView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginWidget loginWidget = LoginWidget();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -28,24 +27,16 @@ class OTPView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            loginWidget.titleLogin("Enter OTP Code"),
+            LoginWithTitle(title: "Enter OTP Code"),
             Container(
               margin: EdgeInsets.symmetric(horizontal: appDmPrimary),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  loginWidget.otpItem(
-                    TextEditingController(),
-                  ),
-                  loginWidget.otpItem(
-                    TextEditingController(),
-                  ),
-                  loginWidget.otpItem(
-                    TextEditingController(),
-                  ),
-                  loginWidget.otpItem(
-                    TextEditingController(),
-                  ),
+                  OTPWidget(controller: TextEditingController()),
+                  OTPWidget(controller: TextEditingController()),
+                  OTPWidget(controller: TextEditingController()),
+                  OTPWidget(controller: TextEditingController()),
                 ],
               ),
             ),
