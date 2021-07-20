@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = new MyHttpOverrides();
   Directory directory = await getApplicationDocumentsDirectory();
   String path = directory.path;
   Hive.init(path);
@@ -27,5 +28,13 @@ class MyApp extends StatelessWidget {
       theme: lightTheme,
       home: SplashScreen(),
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    // TODO: implement createHttpClient
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }

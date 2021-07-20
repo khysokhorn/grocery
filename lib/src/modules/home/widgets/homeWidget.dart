@@ -242,10 +242,9 @@ class ProductItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Image.asset(
-                'asset/images/apple.png',
-                width: 150,
-                height: 130,
+              FadeImageCart(
+                imageUrl:
+                    'https://grocerdel.com/assets/uploads/products/51d6df5accc8f53ed4724bf71bddbc90.jpg',
               ),
               Expanded(
                 child: Container(
@@ -276,13 +275,15 @@ class ProductItem extends StatelessWidget {
                               "Title",
                               style: titleStyle(),
                             ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder()),
-                              onPressed: () {
-                                return addToCartOnClick("productID");
-                              },
-                              child: Icon(Icons.add),
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    shape: CircleBorder()),
+                                onPressed: () {
+                                  return addToCartOnClick("productID");
+                                },
+                                child: Icon(Icons.add),
+                              ),
                             )
                           ],
                         ),

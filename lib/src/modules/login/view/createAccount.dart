@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/modules/login/bloc/register/create_account_bloc.dart';
 import 'package:grocery/src/modules/login/widget/loginWidget.dart';
+import 'package:grocery/src/repository/baseRequest.dart';
 import 'package:grocery/src/repository/userAccRespo/UserRepository.dart';
 
 import 'otpView.dart';
@@ -31,6 +32,16 @@ class _CreateAccountViewState extends State<CreateAccountView> {
   Widget build(BuildContext context) {
     LoginWidget loginWidget = LoginWidget();
     Size size = MediaQuery.of(context).size;
+
+    AppBaseRequest appBaseRequest = AppBaseRequest();
+    appBaseRequest.get1(
+        "products",
+        (error) => () {
+              print(error);
+            },
+        (json) => () {
+              print("Success $json");
+            });
 
     return Scaffold(
       appBar: AppBar(

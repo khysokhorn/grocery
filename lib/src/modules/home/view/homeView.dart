@@ -96,7 +96,7 @@ class _HomeViewState extends State<HomeView> {
                             category: categoryModel,
                           );
                         }
-                        return Text("hi");
+                        return CircularProgressIndicator();
                       },
                     )),
               ),

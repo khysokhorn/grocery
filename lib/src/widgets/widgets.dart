@@ -103,3 +103,20 @@ class FadeImage extends StatelessWidget {
     );
   }
 }
+
+class FadeImageCart extends StatelessWidget {
+  const FadeImageCart({Key? key, required this.imageUrl}) : super(key: key);
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeInImage.assetNetwork(
+      placeholder: "asset/images/comfortPlaceholder.png",
+      image: imageUrl,
+      fadeInCurve: Curves.easeInCirc,
+      fadeOutCurve: Curves.easeOutCirc,
+      width: 150,
+      fit: BoxFit.fill,
+    );
+  }
+}

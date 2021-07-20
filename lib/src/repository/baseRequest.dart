@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class AppBaseRequest {
 
-  final _baseUrl = "http://192.168.43.106:8000/api";
+  final _baseUrl = "http://192.168.1.109:8000/api";
   http.Client _httpClient = http.Client();
 
   Future<String> get(String endPoint) async {
@@ -22,6 +22,31 @@ class AppBaseRequest {
       return resBody;
     } else {
       print("===> get : body request error $resBody");
+      throw Exception(jsonDecode(resBody)['message']);
+    }
+  }
+
+  Future<String> get1(
+    String endPoint,
+    Function error(String error),
+    Function success(String json),
+  ) async {
+    final url = '$_baseUrl$endPoint';
+    print("===> get : Api Request with $url");
+    print("===> get : Api Request header ${_header().toString()}");
+    final response = await this._httpClient.get(
+          Uri.parse(url),
+          headers: _header(),
+        );
+
+    String resBody = response.body;
+    print("===> get : body request $resBody");
+    if (response.statusCode == 200) {
+      success(resBody);
+      return resBody;
+    } else {
+      print("===> get : body request error $resBody");
+      error(jsonDecode(resBody)['message']);
       throw Exception(jsonDecode(resBody)['message']);
     }
   }
