@@ -1,14 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
-import 'package:grocery/src/modules/home/view/homeView.dart';
+import 'package:grocery/src/modules/login/bloc/register/create_account_bloc.dart';
 import 'package:grocery/src/modules/login/view/forgetpassView.dart';
 import 'package:grocery/src/modules/login/widget/loginWidget.dart';
+import 'package:grocery/src/repository/userAccRespo/UserRepository.dart';
 
 import 'createAccount.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
+
+  @override
+  _LoginViewState createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +51,7 @@ class LoginView extends StatelessWidget {
           children: [
             LoginWithTitle(title: "Login"),
             InputForm(
-              controller: TextEditingController(),
+              controller: emailController,
               icon: Icon(
                 Icons.email_outlined,
                 color: AppConstrant.appColorPrimaryColor,
@@ -44,7 +62,7 @@ class LoginView extends StatelessWidget {
               height: appDmPrimary * 2,
             ),
             InputForm(
-              controller: TextEditingController(),
+              controller: passwordController,
               icon: Icon(
                 Icons.lock_outline,
                 color: AppConstrant.appColorPrimaryColor,
@@ -75,18 +93,27 @@ class LoginView extends StatelessWidget {
                 vertical: appDmPrimary,
               ),
               width: size.width,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return HomeView();
-                      },
-                    ),
-                  );
-                },
-                child: Text("Log in"),
+              child: RepositoryProvider(
+                create: (context) => UserRepository(),
+                child: BlocProvider(
+                  create: (context) =>
+                      CreateAccountBloc(context.read<UserRepository>()),
+                  child: BlocBuilder<CreateAccountBloc, CreateAccountState>(
+                    builder: (context, state) {
+
+                      return ElevatedButton(
+                        onPressed: () {
+                          context.read<CreateAccountBloc>().add(
+                                LoginAccount(
+                                    email: emailController.text,
+                                    password: passwordController.text),
+                              );
+                        },
+                        child: Text("Login"),
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
             Spacer(),

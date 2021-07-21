@@ -43,3 +43,17 @@ class CreateAccount extends CreateAccountEvent {
         password,
       ];
 }
+
+class LoginAccount extends CreateAccountEvent {
+  final String email;
+
+  final String password;
+
+  LoginAccount({required this.email, required this.password});
+
+  @override
+  List<Object?> get props => [
+        email,
+        password,
+      ];
+}

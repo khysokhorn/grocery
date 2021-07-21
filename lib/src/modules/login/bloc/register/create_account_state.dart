@@ -27,6 +27,17 @@ class CreateAccSubmitSuccess extends CreateAccountState {
   final String res;
 
   CreateAccSubmitSuccess(this.res);
+
   @override
   List<Object?> get props => [res];
+}
+
+class LoginSuccess extends CreateAccountState {
+  final UserModel userModel;
+
+  LoginSuccess({required this.userModel});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [userModel];
 }

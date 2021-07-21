@@ -1,10 +1,11 @@
 import 'dart:convert';
 
+import 'package:grocery/src/constants/api_path.dart';
 import 'package:http/http.dart' as http;
 
 class AppBaseRequest {
 
-  final _baseUrl = "http://192.168.1.109:8000/api";
+  final _baseUrl = APICONST.BASE_URL;
   http.Client _httpClient = http.Client();
 
   Future<String> get(String endPoint) async {

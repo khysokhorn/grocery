@@ -1,3 +1,4 @@
+import 'package:grocery/src/modules/login/usermodel.dart';
 import 'package:grocery/src/repository/BaseRepository.dart';
 import 'package:grocery/src/repository/userAccRespo/userAccInterface.dart';
 
@@ -24,5 +25,9 @@ class UserRepository extends BaseRepository implements UserAccount   {
   }
 
   @override
-  void login({required String userEmail, required String password}) async {}
+  Future<String>? login({required String userEmail, required String password}) async {
+    return await baseRequest.post("", {
+
+    });
+  }
 }
