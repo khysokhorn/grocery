@@ -13,10 +13,10 @@ class ProductItem {
     required this.result,
   });
 
-  List<Result> result;
+  List<ProductResultModel> result;
 
   factory ProductItem.fromJson(Map<String, dynamic> json) => ProductItem(
-        result: List<Result>.from(json["result"].map((x) => Result.fromJson(x))),
+        result: List<ProductResultModel>.from(json["result"].map((x) => ProductResultModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -24,8 +24,8 @@ class ProductItem {
       };
 }
 
-class Result {
-  Result({
+class ProductResultModel {
+  ProductResultModel({
     required this.id,
     required this.title,
     required this.imageUrl,
@@ -45,7 +45,7 @@ class Result {
   Unit unit;
   List<Scale> scale;
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory ProductResultModel.fromJson(Map<String, dynamic> json) => ProductResultModel(
         id: json["id"],
         title: json["title"],
         imageUrl: json["image_url"],

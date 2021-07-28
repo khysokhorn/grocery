@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/modules/home/model/categoryModel.dart';
+import 'package:grocery/src/modules/home/model/productItem.dart';
 import 'package:grocery/src/widgets/widgets.dart';
 
 class SearchWidget extends StatelessWidget {
@@ -10,18 +12,20 @@ class SearchWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: containerBKDecore(),
-      padding: const EdgeInsets.symmetric(
-        horizontal: appDmPrimary,
-        vertical: 2,
-      ),
-      child: TextField(
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-          border: InputBorder.none,
-          hintText: "Search",
-          icon: Icon(Icons.search),
+    return SliverToBoxAdapter(
+      child: Container(
+        decoration: containerBKDecore(),
+        padding: const EdgeInsets.symmetric(
+          horizontal: appDmPrimary,
+          vertical: 2,
+        ),
+        child: TextField(
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            border: InputBorder.none,
+            hintText: "Search",
+            icon: Icon(Icons.search),
+          ),
         ),
       ),
     );
@@ -66,52 +70,54 @@ class HomeBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: containerBKDecore(),
-      margin: const EdgeInsets.symmetric(vertical: appDmPrimary),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Expanded(
-            flex: 1,
-            child: Container(
-              margin: const EdgeInsets.all(appDmPrimary - 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    "Enjoy the special offer up to 30%",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                  ),
-                  const SizedBox(
-                    height: appDmPrimary - 5,
-                  ),
-                  Text(
-                    "26-30 April 2021",
-                    style: TextStyle(color: Colors.grey),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+    return SliverToBoxAdapter(
+      child: Container(
+        decoration: containerBKDecore(),
+        margin: const EdgeInsets.symmetric(vertical: appDmPrimary),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              flex: 1,
+              child: Container(
+                margin: const EdgeInsets.all(appDmPrimary - 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Enjoy the special offer up to 30%",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.black, fontSize: 18),
+                    ),
+                    const SizedBox(
+                      height: appDmPrimary - 5,
+                    ),
+                    Text(
+                      "26-30 April 2021",
+                      style: TextStyle(color: Colors.grey),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 1,
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(appDmPrimary),
-                bottomRight: Radius.circular(appDmPrimary),
+            Expanded(
+              flex: 1,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(appDmPrimary),
+                  bottomRight: Radius.circular(appDmPrimary),
+                ),
+                clipBehavior: Clip.hardEdge,
+                child: appImgNetFadeIn(
+                  url:
+                      "https://www.myfamilyfirstchiro.com/wp-content/uploads/2016/06/Fresh-Vegetables.jpg",
+                ),
               ),
-              clipBehavior: Clip.hardEdge,
-              child: appImgNetFadeIn(
-                url:
-                    "https://www.myfamilyfirstchiro.com/wp-content/uploads/2016/06/Fresh-Vegetables.jpg",
-              ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -172,13 +178,6 @@ class TittleWithSeeAll extends StatelessWidget {
   }
 }
 
-TextStyle titleStyle() {
-  return TextStyle(
-    color: AppConstrant.appColorBlack,
-    fontWeight: FontWeight.w500,
-  );
-}
-
 class GroceryItemWidget extends StatelessWidget {
   const GroceryItemWidget({
     Key? key,
@@ -220,14 +219,18 @@ class ProductItem extends StatelessWidget {
     required this.size,
     required this.itemOnClick,
     required this.addToCartOnClick,
+    required this.productResultModel,
   }) : super(key: key);
 
   final Size size;
+  final ProductResultModel productResultModel;
   final Function(String id) itemOnClick;
   final Function(String productID) addToCartOnClick;
 
   @override
   Widget build(BuildContext context) {
+    Size itemSize = ItemSize(height: size.height, width: size.width);
+
     return Container(
       margin: const EdgeInsets.all(appDmPrimary / 2),
       child: InkWell(
@@ -235,57 +238,73 @@ class ProductItem extends StatelessWidget {
         radius: appDmPrimary,
         onTap: () => itemOnClick("id"),
         child: Container(
-          padding: EdgeInsets.all(appDmPrimary),
-          decoration: containerDecoration(),
-          height: size.height * 0.30,
+          decoration: containerDecoration()
+            ..copyWith(color: Colors.transparent),
+          width: itemSize.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              FadeImageCart(
-                imageUrl:
-                    'https://grocerdel.com/assets/uploads/products/51d6df5accc8f53ed4724bf71bddbc90.jpg',
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.all(appDmPrimary),
+                child: FadeImageCart(
+                  height: itemSize.height * 0.5,
+                  imageUrl: productResultModel.imageUrl,
+                ),
               ),
               Expanded(
                 child: Container(
-                  width: 150,
+                  margin: EdgeInsets.only(
+                    right: appDmPrimary,
+                    left: appDmPrimary,
+                  ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Container(
+                        child: Text(
+                          productResultModel.title,
+                          overflow: TextOverflow.clip,
+                          maxLines: 1,
+                          style: GoogleFonts.khula(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
                       Text(
-                        "Title",
-                        overflow: TextOverflow.ellipsis,
-                        style: titleStyle(),
-                      ),
-                      SizedBox(
-                        height: appDmPrimary / 2,
-                      ),
-                      Text(
-                        "7pcs, Priceg",
-                      ),
-                      SizedBox(
-                        height: appDmPrimary / 2,
+                        "7pcs, ${productResultModel.unit.title}",
+                        style: GoogleFonts.khula(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
                       ),
                       Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Title",
-                              style: titleStyle(),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: appDmPrimary),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '${productResultModel.scale[0].itemPrice.price} \$',
+                                  style: GoogleFonts.khula(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FontStyle.normal,
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      shape: CircleBorder()),
+                                  onPressed: () {},
+                                  child: Icon(Icons.add),
+                                )
+                              ],
                             ),
-                            Expanded(
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    shape: CircleBorder()),
-                                onPressed: () {
-                                  return addToCartOnClick("productID");
-                                },
-                                child: Icon(Icons.add),
-                              ),
-                            )
-                          ],
+                          ),
                         ),
                       )
                     ],
@@ -307,4 +326,11 @@ BoxDecoration containerDecoration() {
       appDmPrimary,
     ),
   );
+}
+
+TextStyle titleStyle() {
+  return GoogleFonts.khula(
+      color: AppConstrant.appColorBlack,
+      fontWeight: FontWeight.w600,
+      fontSize: 16);
 }

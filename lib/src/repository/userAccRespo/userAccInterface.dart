@@ -1,4 +1,5 @@
 import 'package:grocery/src/modules/login/usermodel.dart';
+import 'package:http/http.dart';
 
 abstract class UserAccount {
   Future<String>? createAccount({
@@ -8,8 +9,8 @@ abstract class UserAccount {
     required String password,
   });
 
-  Future<String>? login({
+  Future<Response?>? login({
     required String userEmail,
     required String password,
-  }) {}
+  }) async{}
 }

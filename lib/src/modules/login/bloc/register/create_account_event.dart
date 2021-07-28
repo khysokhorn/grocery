@@ -4,31 +4,31 @@ abstract class CreateAccountEvent extends Equatable {
   const CreateAccountEvent();
 }
 
-class UserEmailOnChange extends CreateAccountEvent {
+class UserEmailOnChangeEvent extends CreateAccountEvent {
   final String email;
 
-  UserEmailOnChange({required this.email});
+  UserEmailOnChangeEvent({required this.email});
 
   @override
   List<Object?> get props => [email];
 }
 
-class PasswordOnChange extends CreateAccountEvent {
+class PasswordOnChangeEvent extends CreateAccountEvent {
   final String userName;
 
-  PasswordOnChange({required this.userName});
+  PasswordOnChangeEvent({required this.userName});
 
   @override
   List<Object?> get props => [];
 }
 
-class CreateAccount extends CreateAccountEvent {
+class CreateAccountSubmitEvent extends CreateAccountEvent {
   final String userName;
   final String email;
   final String phoneNumber;
   final String password;
 
-  CreateAccount({
+  CreateAccountSubmitEvent({
     required this.userName,
     required this.email,
     required this.phoneNumber,
@@ -44,12 +44,12 @@ class CreateAccount extends CreateAccountEvent {
       ];
 }
 
-class LoginAccount extends CreateAccountEvent {
+class LoginAccountEvent extends CreateAccountEvent {
   final String email;
 
   final String password;
 
-  LoginAccount({required this.email, required this.password});
+  LoginAccountEvent({required this.email, required this.password});
 
   @override
   List<Object?> get props => [

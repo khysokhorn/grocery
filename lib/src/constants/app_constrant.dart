@@ -5,11 +5,12 @@ class AppConstrant {
   static Color appColorGrayCardBG = Colors.grey.withOpacity(0.6);
   static Color appColorGra = Colors.grey;
   static Color appColorLightBlack = Colors.black54;
-  static Color  appColorBlack = Colors.black;
+  static Color appColorBlack = Colors.black;
   static Color appColorPrimaryColor = Colors.green;
   static Color appColorRed = Colors.redAccent;
   static Color appColorWhite = Colors.white70;
-  static Color appColorLightBlack2 =  Colors.black87;
+  static Color appColorLightBlack2 = Colors.black87;
+  static Color appImageBackground = Color.fromRGBO(242, 243, 242, 1.0);
 }
 
 //============== dimension ==============//
@@ -25,4 +26,17 @@ class HexColor extends Color {
   }
 
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+}
+
+class ItemSize extends Size {
+  ItemSize({required double width, required double height})
+      : super(width, height);
+
+  @override
+  // TODO: implement height
+  double get height => super.height * 0.37;
+
+  @override
+  // TODO: implement width
+  double get width => super.width * 0.50;
 }

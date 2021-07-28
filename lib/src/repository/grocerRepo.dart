@@ -1,6 +1,7 @@
 import 'package:grocery/src/modules/home/model/categoryModel.dart';
 import 'package:grocery/src/modules/home/model/productItem.dart';
 import 'package:grocery/src/repository/baseRequest.dart';
+import 'package:http/http.dart';
 
 class GrocerRepo {
   AppBaseRequest _baseRequest = AppBaseRequest();
@@ -21,5 +22,10 @@ class GrocerRepo {
     return category;
   }
 
-
+  Future<Response>? getProductList() async {
+    var result;
+    await _baseRequest.getWithCallBackRes(
+        "/products", (response) => result = response);
+    return result;
+  }
 }

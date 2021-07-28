@@ -65,13 +65,46 @@ class AppBaseRequest {
         );
     String resBody = response.body;
 
-    print("===> post : body request $resBody");
+    print("===> post : body response $resBody");
 
-    if (response.statusCode == 200) {
+    if (response.statusCode >= 200 || response.statusCode <= 300) {
       return resBody;
     } else {
-      throw Exception(jsonDecode(resBody)['message']);
+      throw Exception(resBody);
     }
+  }
+
+  Future post1(
+    String endPoint,
+    Map<String, String> body,
+    Function(http.Response response) res,
+  ) async {
+    final url = '$_baseUrl/$endPoint';
+    print("===> post : Api Request with $url ");
+    print("===> post : Api body $body");
+    print("===> post : Api cookie $_header()");
+
+    final response = await this._httpClient.post(
+          Uri.parse(url),
+          body: jsonEncode(body),
+          headers: _header(),
+        );
+    String resBody = response.body;
+    res(response);
+    print("===> post : body response $resBody");
+  }
+
+  Future getWithCallBackRes(
+      String endPoint, Function(http.Response response) res) async {
+    final url = '$_baseUrl$endPoint';
+    print("===> get : Api Request with $url");
+    print("===> get : Api Request header ${_header().toString()}");
+    var responses = await this._httpClient.get(
+          Uri.parse(url),
+          headers: _header(),
+        );
+
+    res(responses);
   }
 
   Map<String, String> _header() => {

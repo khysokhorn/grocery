@@ -36,6 +36,12 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     background: SafeArea(
                       child: Container(
                         margin: const EdgeInsets.all(appDmPrimary * 2),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(appDmPrimary),
+                            bottomRight: Radius.circular(appDmPrimary),
+                          ),
+                        ),
                         child: appImgNetFadeIn(
                           url:
                               "https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png",
@@ -43,7 +49,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       ),
                     ),
                   ),
-                  backgroundColor: Colors.grey[100],
+                  backgroundColor: AppConstrant.appImageBackground,
                   leading: IconButton(
                     onPressed: () {
                       Navigator.pop(context);

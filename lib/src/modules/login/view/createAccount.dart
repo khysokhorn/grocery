@@ -5,6 +5,7 @@ import 'package:grocery/src/modules/login/bloc/register/create_account_bloc.dart
 import 'package:grocery/src/modules/login/widget/loginWidget.dart';
 import 'package:grocery/src/repository/userAccRespo/UserRepository.dart';
 
+
 import 'otpView.dart';
 
 class CreateAccountView extends StatefulWidget {
@@ -76,7 +77,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                           onTextChange: (email) {
                             context
                                 .read<CreateAccountBloc>()
-                                .add(UserEmailOnChange(email: email));
+                                .add(UserEmailOnChangeEvent(email: email));
                           },
                           icon: Icon(
                             Icons.email_outlined,
@@ -122,7 +123,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                         return ElevatedButton(
                           onPressed: () {
                             context.read<CreateAccountBloc>().add(
-                                  CreateAccount(
+                                  CreateAccountSubmitEvent(
                                     userName: userNameController.text,
                                     phoneNumber: "",
                                     email: emailController.text,

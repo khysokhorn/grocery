@@ -4,38 +4,38 @@ abstract class CreateAccountState extends Equatable {
   const CreateAccountState();
 }
 
-class CreateAccountInitial extends CreateAccountState {
+class CreateAccountInitialState extends CreateAccountState {
   @override
   List<Object> get props => [];
 }
 
-class CreateAccountError extends CreateAccountState {
+class CreateAccountErrorState extends CreateAccountState {
   final String error;
 
-  CreateAccountError(this.error);
+  CreateAccountErrorState(this.error);
 
   @override
   List<Object?> get props => [];
 }
 
-class CreateAccountLoading extends CreateAccountState {
+class CreateAccountLoadingState extends CreateAccountState {
   @override
   List<Object?> get props => [];
 }
 
-class CreateAccSubmitSuccess extends CreateAccountState {
+class CreateAccSubmitSuccessState extends CreateAccountState {
   final String res;
 
-  CreateAccSubmitSuccess(this.res);
+  CreateAccSubmitSuccessState(this.res);
 
   @override
   List<Object?> get props => [res];
 }
 
-class LoginSuccess extends CreateAccountState {
-  final UserModel userModel;
+class LoginSuccessState extends CreateAccountState {
+  final UserModel? userModel;
 
-  LoginSuccess({required this.userModel});
+  LoginSuccessState({required this.userModel});
 
   @override
   // TODO: implement props

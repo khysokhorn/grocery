@@ -105,17 +105,24 @@ class FadeImage extends StatelessWidget {
 }
 
 class FadeImageCart extends StatelessWidget {
-  const FadeImageCart({Key? key, required this.imageUrl}) : super(key: key);
+  const FadeImageCart({Key? key, required this.imageUrl, required this.height})
+      : super(key: key);
   final String imageUrl;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
+    // return Image.(
+    //   "asset/images/apple.png",
+    //   fit: BoxFit.fill,
+    //   height: height,
+    // );
     return FadeInImage.assetNetwork(
       placeholder: "asset/images/comfortPlaceholder.png",
       image: imageUrl,
       fadeInCurve: Curves.easeInCirc,
       fadeOutCurve: Curves.easeOutCirc,
-      width: 150,
+      height: 120,
       fit: BoxFit.fill,
     );
   }

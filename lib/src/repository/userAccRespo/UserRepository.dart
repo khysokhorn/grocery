@@ -1,8 +1,7 @@
-import 'package:grocery/src/modules/login/usermodel.dart';
+import 'package:grocery/src/constants/api_path.dart';
 import 'package:grocery/src/repository/BaseRepository.dart';
 import 'package:grocery/src/repository/userAccRespo/userAccInterface.dart';
-
-import '../baseRequest.dart';
+import 'package:http/http.dart';
 
 class UserRepository extends BaseRepository implements UserAccount   {
 
@@ -14,7 +13,7 @@ class UserRepository extends BaseRepository implements UserAccount   {
       required String password}) async {
     print(
         "===> user information  email $email name $userName phone number $phoneNumber pass $password");
-    return await  baseRequest.post(
+    return await baseRequest.post(
       'register',
       {
         "name": "$userName",
@@ -25,9 +24,30 @@ class UserRepository extends BaseRepository implements UserAccount   {
   }
 
   @override
-  Future<String>? login({required String userEmail, required String password}) async {
-    return await baseRequest.post("", {
+  Future<Response?>? login(
+      {required String userEmail, required String password}) async {
+    Response? res;
+    // await baseRequest
+    //     .post1(
+    //       APICONST.login,
+    //       {
+    //         "email": userEmail,
+    //         "password": password,
+    //       },
 
-    });
+    //     )
+    //     .then((String? value) => userModel = userModelFromJson(value!))
+    //     .catchError((error) {
+    //       print("===> error with $error");
+    //     });
+    // print("===>user from json $userModel");
+    await baseRequest.post1(
+        APICONST.login,
+        {
+          "email": userEmail,
+          "password": password,
+        },
+        (response) => {res = response});
+    return res;
   }
 }
