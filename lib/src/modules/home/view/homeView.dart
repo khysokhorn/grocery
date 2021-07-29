@@ -186,14 +186,7 @@ class ExclusiveOfferList extends StatelessWidget {
                       print("Product id $productID");
                     },
                     itemOnClick: (productID) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ProductDetailView();
-                          },
-                        ),
-                      );
+
                       print(
                         ("item have click "),
                       );

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grocery/src/config/themes/light_theme.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
+import 'package:grocery/src/modules/home/model/productItem.dart';
 import 'package:grocery/src/widgets/widgets.dart';
 
 class ProductDetailView extends StatefulWidget {
-  const ProductDetailView({Key? key}) : super(key: key);
+  const ProductDetailView({Key? key, required this.productResultModel})
+      : super(key: key);
+  final ProductResultModel productResultModel;
 
   @override
   _ProductDetailViewState createState() => _ProductDetailViewState();
@@ -15,7 +18,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    print("product detail ${widget.productResultModel.imageUrl}");
     return Scaffold(
       body: Stack(
         children: [
@@ -24,53 +27,12 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             child: CustomScrollView(
               physics: BouncingScrollPhysics(),
               slivers: [
-                SliverAppBar(
-                  pinned: true,
-                  snap: false,
-                  floating: true,
-                  flexibleSpace: FlexibleSpaceBar(
-                    collapseMode: CollapseMode.parallax,
-                    stretchModes: [
-                      StretchMode.zoomBackground,
-                    ],
-                    background: SafeArea(
-                      child: Container(
-                        margin: const EdgeInsets.all(appDmPrimary * 2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(appDmPrimary),
-                            bottomRight: Radius.circular(appDmPrimary),
-                          ),
-                        ),
-                        child: appImgNetFadeIn(
-                          url:
-                              "https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png",
-                        ),
-                      ),
-                    ),
+                ProductDetailAppBar(widget: widget, size: size),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: appDmPrimary,
                   ),
-                  backgroundColor: AppConstrant.appImageBackground,
-                  leading: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios_rounded,
-                      color: AppConstrant.appColorBlack,
-                    ),
-                  ),
-                  actions: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.shopping_cart,
-                        color: AppConstrant.appColorBlack,
-                      ),
-                    ),
-                  ],
-                  expandedHeight: size.height * 0.30,
                 ),
-                SliverPadding(padding: const EdgeInsets.symmetric(vertical: appDmPrimary)),
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
@@ -83,7 +45,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                           children: [
                             // start
                             Text(
-                              "Strawberry",
+                              "${widget.productResultModel.title}",
                               style: TextStyle(
                                 color: Colors.black,
                               ),
@@ -92,7 +54,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                               height: appDmPrimary,
                             ),
                             Text(
-                              "perkg",
+                              "${widget.productResultModel.unit.title}",
                               style: appSubTitle,
                             ),
                             Container(
@@ -102,7 +64,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                 children: [
                                   addAndRemove(),
                                   Text(
-                                    "\$4.99",
+                                    "\$${widget.productResultModel.scale[0].itemPrice.price}",
                                     style: TextStyle(
                                       color: AppConstrant.appColorRed,
                                       fontWeight: FontWeight.bold,
@@ -225,6 +187,66 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           )
         ],
       ),
+    );
+  }
+}
+
+class ProductDetailAppBar extends StatelessWidget {
+  const ProductDetailAppBar({
+    Key? key,
+    required this.widget,
+    required this.size,
+  }) : super(key: key);
+
+  final ProductDetailView widget;
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      pinned: true,
+      snap: false,
+      floating: true,
+      flexibleSpace: FlexibleSpaceBar(
+        collapseMode: CollapseMode.parallax,
+        stretchModes: [
+          StretchMode.zoomBackground,
+        ],
+        background: SafeArea(
+          child: Container(
+            margin: const EdgeInsets.all(appDmPrimary * 2),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(appDmPrimary),
+                bottomRight: Radius.circular(appDmPrimary),
+              ),
+            ),
+            child: appImgNetFadeIn(
+              url: "${widget.productResultModel.imageUrl}",
+            ),
+          ),
+        ),
+      ),
+      backgroundColor: AppConstrant.appImageBackground,
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: Icon(
+          Icons.arrow_back_ios_rounded,
+          color: AppConstrant.appColorBlack,
+        ),
+      ),
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.shopping_cart,
+            color: AppConstrant.appColorBlack,
+          ),
+        ),
+      ],
+      expandedHeight: size.height * 0.30,
     );
   }
 }

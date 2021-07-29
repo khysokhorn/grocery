@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/modules/home/model/categoryModel.dart';
 import 'package:grocery/src/modules/home/model/productItem.dart';
+import 'package:grocery/src/modules/home/view/productDetail.dart';
 import 'package:grocery/src/widgets/widgets.dart';
 
 class SearchWidget extends StatelessWidget {
@@ -236,7 +237,19 @@ class ProductItem extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(appDmPrimary),
         radius: appDmPrimary,
-        onTap: () => itemOnClick("id"),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return ProductDetailView(
+                  productResultModel: productResultModel,
+                );
+              },
+            ),
+          );
+          return itemOnClick('id');
+        },
         child: Container(
           decoration: containerDecoration()
             ..copyWith(color: Colors.transparent),
