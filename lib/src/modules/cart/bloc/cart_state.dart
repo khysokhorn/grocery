@@ -29,7 +29,7 @@ class CartError extends CartState {
 }
 
 class CartSuccess extends CartState {
-  final CartModel cartModel;
+  final CartModels cartModel;
 
   CartSuccess(this.cartModel);
 

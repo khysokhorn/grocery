@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/src/config/themes/light_theme.dart';
 import 'package:grocery/src/modules/login/usermodel.dart';
 import 'package:grocery/src/modules/login/view/splash.dart';
+import 'package:grocery/src/repository/grocerRepo.dart';
 import 'package:grocery/src/utils/services/localServices/hiveHelper.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -31,11 +33,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      showSemanticsDebugger: false,
-      debugShowCheckedModeBanner: false,
-      theme: lightTheme,
-      home: HiveHelper().getUserModel() == null ? SplashScreen() : HomeView(),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => GrocerRepo(),
+        ),
+      ],
+      child: MaterialApp(
+        showSemanticsDebugger: false,
+        debugShowCheckedModeBanner: false,
+        theme: lightTheme,
+        home: HiveHelper().getUserModel() == null ? SplashScreen() : HomeView(),
+      ),
     );
   }
 }

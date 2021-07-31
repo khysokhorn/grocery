@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/modules/cart/bloc/cart_cubit.dart';
 import 'package:grocery/src/modules/cart/widget.dart';
-import 'package:grocery/src/modules/checkout/checkView.dart';
 import 'package:grocery/src/repository/cart/cartRepositoty.dart';
 import 'package:grocery/src/widgets/widgets.dart';
 
@@ -83,10 +82,15 @@ class CartView extends StatelessWidget {
                 width: size.width,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return CheckOutView();
-                    }));
+                    show(context);
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                    //       return CheckOutView();
+                    //     },
+                    //   ),
+                    // );
                   },
                   child: Text("Checkout"),
                 ),
@@ -96,5 +100,19 @@ class CartView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void show(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            decoration: ,
+            child: Column(
+              children: [Text("hi"),
+              ],
+            ),
+          );
+        });
   }
 }

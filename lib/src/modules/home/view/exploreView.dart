@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:grocery/src/config/themes/light_theme.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/modules/subcategory/categoryDetailView.dart';
-import 'package:grocery/src/modules/home/widgets/homeWidget.dart';
 import 'package:grocery/src/utils/ui/ui_utils.dart';
 import 'package:grocery/src/widgets/widgets.dart';
 
@@ -61,7 +60,7 @@ class ExploreView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Expanded(
-                                child: appImgNetFadeIn(
+                                child: AppFadImage(
                                   url:
                                       "https://www.pikpng.com/pngl/b/211-2113083_transparent-background-strawberry-png-clipart.png",
                                 ),

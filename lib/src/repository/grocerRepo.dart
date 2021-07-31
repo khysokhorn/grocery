@@ -1,6 +1,7 @@
 import 'package:grocery/src/modules/home/model/categoryModel.dart';
 import 'package:grocery/src/modules/home/model/productItem.dart';
 import 'package:grocery/src/repository/baseRequest.dart';
+import 'package:grocery/src/utils/services/localServices/hiveHelper.dart';
 import 'package:http/http.dart';
 
 class GrocerRepo {
@@ -26,6 +27,23 @@ class GrocerRepo {
     var result;
     await _baseRequest.getWithCallBackRes(
         "/products", (response) => result = response);
+    return result;
+  }
+
+  Future<Response>? postAddToCart(int productID, int qty) async {
+    var result;
+    HiveHelper helper = HiveHelper();
+    var model = helper.getUserModel();
+    var body = {
+      "user_id": model!.user!.id,
+      "product_id": productID,
+      "qty": qty
+    };
+    await _baseRequest.post1(
+      "/carts",
+      body,
+      (response) => {result = response},
+    );
     return result;
   }
 }

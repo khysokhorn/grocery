@@ -10,7 +10,7 @@ class CartItem extends StatelessWidget {
     Key? key,
     required this.cartModel,
   }) : super(key: key);
-  final CartModel cartModel;
+  final CartModels cartModel;
 
   @override
   Widget build(BuildContext context) {

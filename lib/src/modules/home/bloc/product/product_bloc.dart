@@ -7,13 +7,13 @@ import 'package:grocery/src/repository/grocerRepo.dart';
 import 'package:http/http.dart';
 
 part 'product_event.dart';
-
 part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final GrocerRepo repo;
+  int qty = 1;
 
-  ProductBloc(this.repo) : super(ProductInitialState());
+  ProductBloc(this.repo, this.qty) : super(ProductInitialState());
 
   @override
   Stream<ProductState> mapEventToState(
@@ -35,6 +35,30 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         } else
           yield ProductErrorState(errorMessage: "Error");
       }
+    } else if (event is QtyInCreaseEvent) {
+      print("==> qty event increase ${event.num}");
+      qty = event.num + qty;
+      yield QtyState(qty: qty);
+    } else if (event is QtyDeCreaseEvent) {
+      print("==> qty event decrease ${event.num}");
+      qty = event.num + qty;
+      yield QtyState(qty: qty);
+    } else if (event is ProductAddToCartEvent) {
+      yield AddToCartLoadingState();
+      print("==> add to cart event ${event.qty} id ${event.productID}");
+      await Future.delayed(Duration(seconds: 2));
+      yield AddToCartFailState(error: "There is something wrong with API");
+      //Response? response = await repo.postAddToCart(event.productID, event.qty);
+      // if (response == null) {
+      //   yield ProductErrorState(errorMessage: "Something went wrong");
+      // } else {
+      //   if (response.statusCode == 200) {
+      //     var result = addToCartResModelFromJson(response.body);
+      //
+      //     yield AddToCartSuccessState(result: result.result);
+      //   } else
+      //     yield ProductErrorState(errorMessage: "Error");
+      // }
     }
   }
 }

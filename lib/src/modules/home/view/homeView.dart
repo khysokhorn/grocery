@@ -41,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
           create: (context) => GrocerRepo(),
           child: BlocProvider<ProductBloc>(
             create: (context) => ProductBloc(
-              context.read<GrocerRepo>(),
+              context.read<GrocerRepo>(), 0
             ),
             child: Container(
               margin: EdgeInsets.symmetric(
@@ -282,43 +282,4 @@ class HomeAppBar extends StatelessWidget {
   }
 }
 
-// bottom navigation item
-///  bottomNavigationBar: Container(
-//         decoration: BoxDecoration(
-//           color: Colors.green,
-//           boxShadow: [
-//             BoxShadow(
-//               blurRadius: 2,
-//               color: AppConstrant.appColorGrayCardBG,
-//             ),
-//           ],
-//           borderRadius: BorderRadius.only(
-//             topLeft: Radius.circular(appDmPrimary),
-//           ),
-//         ),
-//         child: BottomNavigationBar(
-//           unselectedLabelStyle: GoogleFonts.khula(
-//             color: AppConstrant.appColorLightBlack2,
-//           ),
-//           unselectedIconTheme: IconThemeData(
-//             color: AppConstrant.appColorLightBlack2,
-//           ),
-//           type: BottomNavigationBarType.shifting,
-//           items: [
-//             BottomNavigationBarItem(
-//               label: "Home",
-//               icon: Icon(Icons.home),
-//             ),
-//             BottomNavigationBarItem(
-//               label: "Home",
-//               icon: Icon(Icons.home),
-//             ),
-//             BottomNavigationBarItem(
-//               label: "Home",
-//               icon: Icon(Icons.home),
-//             ),
-//           ],
-//         ),
-//       ),
-///
-///
+

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
+import 'package:grocery/src/constants/assets_path.dart';
+import 'package:grocery/src/modules/home/bloc/product/product_bloc.dart';
 import 'package:grocery/src/modules/home/model/categoryModel.dart';
 import 'package:grocery/src/modules/home/model/productItem.dart';
 import 'package:grocery/src/modules/home/view/productDetail.dart';
@@ -74,6 +77,7 @@ class HomeBanner extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Container(
         decoration: containerBKDecore(),
+        height: appDmBannerHeight,
         margin: const EdgeInsets.symmetric(vertical: appDmPrimary),
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -111,9 +115,8 @@ class HomeBanner extends StatelessWidget {
                   bottomRight: Radius.circular(appDmPrimary),
                 ),
                 clipBehavior: Clip.hardEdge,
-                child: appImgNetFadeIn(
-                  url:
-                      "https://www.myfamilyfirstchiro.com/wp-content/uploads/2016/06/Fresh-Vegetables.jpg",
+                child: AppFadImage(
+                  url: apImgBanner,
                 ),
               ),
             )
@@ -339,6 +342,201 @@ BoxDecoration containerDecoration() {
       appDmPrimary,
     ),
   );
+}
+
+// product detail
+class QtyAddOrRemoveToCart extends StatefulWidget {
+  const QtyAddOrRemoveToCart({
+    Key? key,
+    required this.qtyCallBack,
+  }) : super(key: key);
+  final Function(int qty) qtyCallBack;
+
+  @override
+  _QtyAddOrRemoveToCartState createState() => _QtyAddOrRemoveToCartState();
+}
+
+class _QtyAddOrRemoveToCartState extends State<QtyAddOrRemoveToCart> {
+  int itemQty = 1;
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProductBloc, ProductState>(
+      builder: (context, state) {
+        if (state is QtyState) {
+          itemQty = state.qty;
+        }
+        return AddAndRemove(
+          num: itemQty,
+          onDecrease: () {
+            if (state is QtyState) if (state.qty > 1) {
+              context.read<ProductBloc>().add(
+                    QtyDeCreaseEvent(
+                      num: -1,
+                    ),
+                  );
+            }
+          },
+          onIncrease: () {
+            context.read<ProductBloc>().add(
+                  QtyInCreaseEvent(
+                    num: 1,
+                  ),
+                );
+          },
+        );
+      },
+    );
+  }
+}
+
+// submit data to cart
+class BtnSubmitDataToCart extends StatelessWidget {
+  const BtnSubmitDataToCart({
+    Key? key,
+    required this.size,
+    required this.qty,
+    required this.widget,
+  }) : super(key: key);
+
+  final Size size;
+  final int qty;
+  final ProductDetailView widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      bottom: 1,
+      child: Card(
+        margin: const EdgeInsets.all(0),
+        child: Container(
+          decoration: shadowContaianerdecore(),
+          width: size.width,
+          padding: const EdgeInsets.all(appDmPrimary / 2),
+          child: Row(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: AppConstrant.appColorLightBlack,
+                    ),
+                    shape: BoxShape.circle),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.favorite_border,
+                    color: AppConstrant.appColorLightBlack,
+                  ),
+                ),
+                margin: const EdgeInsets.symmetric(horizontal: appDmPrimary),
+              ),
+              Expanded(
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: appDmPrimary - 10),
+                  child: Stack(
+                    children: [
+                      BlocBuilder<ProductBloc, ProductState>(
+                        builder: (context, state) {
+                          if (!(state is AddToCartLoadingState))
+                            return Container(
+                              width: size.width,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  print("item have click add to cart ");
+                                  print("====> qty $qty");
+                                  context.read<ProductBloc>().add(
+                                        ProductAddToCartEvent(
+                                          productID:
+                                              widget.productResultModel.id,
+                                          qty: qty,
+                                        ),
+                                      );
+                                },
+                                child: Text("Add To Cart"),
+                              ),
+                            );
+                          return SizedBox.shrink();
+                        },
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: BlocBuilder<ProductBloc, ProductState>(
+                          builder: (context, state) {
+                            if (state is AddToCartLoadingState)
+                              return CircularProgressIndicator();
+                            return SizedBox.shrink();
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProductDetailAppBar extends StatelessWidget {
+  const ProductDetailAppBar({
+    Key? key,
+    required this.widget,
+    required this.size,
+  }) : super(key: key);
+
+  final ProductDetailView widget;
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      pinned: true,
+      snap: false,
+      floating: true,
+      flexibleSpace: FlexibleSpaceBar(
+        collapseMode: CollapseMode.parallax,
+        stretchModes: [
+          StretchMode.zoomBackground,
+        ],
+        background: SafeArea(
+          child: Container(
+              margin: const EdgeInsets.all(appDmPrimary * 2),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(appDmPrimary),
+                  bottomRight: Radius.circular(appDmPrimary),
+                ),
+              ),
+              child: AppFadImage(
+                url: widget.productResultModel.imageUrl,
+              )),
+        ),
+      ),
+      backgroundColor: AppConstrant.appImageBackground,
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: Icon(
+          Icons.arrow_back_ios_rounded,
+          color: AppConstrant.appColorBlack,
+        ),
+      ),
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.shopping_cart,
+            color: AppConstrant.appColorBlack,
+          ),
+        ),
+      ],
+      expandedHeight: size.height * 0.30,
+    );
+  }
 }
 
 TextStyle titleStyle() {

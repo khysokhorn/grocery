@@ -78,13 +78,22 @@ BoxDecoration containerBKDecore() {
 }
 
 // search
+class AppFadImage extends StatelessWidget {
+  const AppFadImage({Key? key, required this.url}) : super(key: key);
+  final String url;
 
-FadeInImage appImgNetFadeIn({required String url}) {
-  return FadeInImage.assetNetwork(
-    placeholder: "asset/images/comfortPlaceholder.png",
-    image: "$url",
-    fit: BoxFit.fill,
-  );
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(appDmPrimary - 10),
+      child: FadeInImage.assetNetwork(
+        placeholder: "asset/images/comfortPlaceholder.png",
+        image: "$url",
+        fit: BoxFit.fill,
+        height: appDmBannerHeight,
+      ),
+    );
+  }
 }
 
 class FadeImage extends StatelessWidget {
@@ -129,13 +138,25 @@ class FadeImageCart extends StatelessWidget {
 }
 
 class AddAndRemove extends StatelessWidget {
-  const AddAndRemove({Key? key}) : super(key: key);
+  const AddAndRemove({
+    Key? key,
+    required this.onIncrease,
+    required this.onDecrease,
+    required this.num,
+  }) : super(key: key);
+  final Function() onIncrease;
+  final Function() onDecrease;
+  final int num;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(
         vertical: appDmPrimary,
+      ),
+      padding: const EdgeInsets.symmetric(
+        horizontal: appDmPrimary - 10,
+        vertical: appDmPrimary - 15,
       ),
       decoration: BoxDecoration(
           border: Border.all(
@@ -147,33 +168,45 @@ class AddAndRemove extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            child: InkWell(
-              onTap: () {},
-              child: Icon(
-                Icons.remove,
-                color: AppConstrant.appColorLightBlack,
-              ),
+          IconButton(
+            splashRadius: appDmPrimary * 1.5,
+            onPressed: onDecrease,
+            icon: Icon(
+              Icons.remove,
+              color: AppConstrant.appColorBlack,
             ),
-            margin: const EdgeInsets.symmetric(horizontal: 5),
-            padding: const EdgeInsets.all(appDmPrimary - 10),
-          ),
-          Text(
-            "2",
-            style: titleStyle(),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 5),
-            child: InkWell(
-              onTap: () {},
-              child: Icon(
-                Icons.add,
-                color: AppConstrant.appColorBlack,
-              ),
+            margin: const EdgeInsets.symmetric(horizontal: appDmPrimary - 10),
+            child: Text(
+              num.toString(),
+              style: titleStyle(),
             ),
-            padding: const EdgeInsets.all(appDmPrimary - 10),
           ),
+          IconButton(
+            onPressed: onIncrease,
+            splashRadius: appDmPrimary * 1.5,
+            icon: Icon(
+              Icons.add,
+              color: AppConstrant.appColorBlack,
+            ),
+          )
         ],
+      ),
+    );
+  }
+}
+
+class AppSliverSpace extends StatelessWidget {
+  const AppSliverSpace({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        height: appDmPrimary * 5,
       ),
     );
   }

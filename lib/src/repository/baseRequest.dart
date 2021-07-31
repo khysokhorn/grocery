@@ -76,7 +76,7 @@ class AppBaseRequest {
 
   Future post1(
     String endPoint,
-    Map<String, String> body,
+    Map<String, dynamic> body,
     Function(http.Response response) res,
   ) async {
     final url = '$_baseUrl/$endPoint';

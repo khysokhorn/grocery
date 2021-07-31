@@ -4,8 +4,8 @@ import 'package:grocery/src/repository/cart/CartInterface.dart';
 
 class CartRepository extends BaseRepository implements CartInterface {
   @override
-  Future<CartModel?> getCart(String userID) async {
-    CartModel? cartModel;
+  Future<CartModels?> getCart(String userID) async {
+    CartModels? cartModel;
     await baseRequest
         .get('/carts')
         .then((value) => cartModel = cartModelFromJson(value));
