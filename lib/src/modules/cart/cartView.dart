@@ -107,7 +107,6 @@ class CartView extends StatelessWidget {
         context: context,
         builder: (context) {
           return Container(
-            decoration: ,
             child: Column(
               children: [Text("hi"),
               ],

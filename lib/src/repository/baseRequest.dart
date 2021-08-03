@@ -110,7 +110,7 @@ class AppBaseRequest {
   Map<String, String> _header() => {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        // 'Authorization': 'Bearer ${_hiveLocalDB.getLoinModel().token}',
+         'Authorization': APICONST.bearerToken,
         // 'cookie': "${_hiveLocalDB.getLoinModel().cookie}"
       };
 
