@@ -1,3 +1,4 @@
+import 'package:grocery/src/constants/api_path.dart';
 import 'package:grocery/src/modules/home/model/categoryModel.dart';
 import 'package:grocery/src/modules/home/model/productItem.dart';
 import 'package:grocery/src/repository/baseRequest.dart';
@@ -15,8 +16,8 @@ class GrocerRepo {
     return productItem;
   }
 
-  Future<CategoryModel?> getCategory() async {
-    CategoryModel? category;
+  Future<List<CategoryModel>?> getCategory() async {
+    List<CategoryModel>? category;
     await _baseRequest
         .get('/categories')
         .then((value) => category = categoryModelFromJson(value));
@@ -27,6 +28,20 @@ class GrocerRepo {
     var result;
     await _baseRequest.getWithCallBackRes(
         "/products", (response) => result = response);
+    return result;
+  }
+
+  Future<Response>? getProductExclusiveOffer() async {
+    var result;
+    await _baseRequest.getWithCallBackRes(
+        "/exclusives", (response) => result = response);
+    return result;
+  }
+
+  Future<Response>? getProductCategories() async {
+    var result;
+    await _baseRequest.getWithCallBackRes(
+        APICONST.categories, (response) => result = response);
     return result;
   }
 

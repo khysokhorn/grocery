@@ -5,5 +5,6 @@ class APICONST {
 
 // ====> endpoint
   static final String login = "login";
-  static final String bearerToken = "Bearer 3|Lj5u94vphDLIp2mhSlxtAFWo8u10potXFFfZy89O";
+  static final String categories = "/categories";
+  static final String bearerToken = "Bearer 1|3qxmsZ9FeMhLB7pDLx8jqQsfOiajQq6INXUXMuyg";
 }

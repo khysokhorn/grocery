@@ -108,9 +108,11 @@ class AppBaseRequest {
   }
 
   Map<String, String> _header() => {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
-         'Authorization': APICONST.bearerToken,
+        'Authorization': APICONST.bearerToken,
+        'connection': 'keep-alive',
+        'Accept-Encoding': 'gzip, deflate, br'
         // 'cookie': "${_hiveLocalDB.getLoinModel().cookie}"
       };
 

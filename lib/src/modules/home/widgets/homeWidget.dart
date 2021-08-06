@@ -5,7 +5,7 @@ import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/constants/assets_path.dart';
 import 'package:grocery/src/modules/home/bloc/product/product_bloc.dart';
 import 'package:grocery/src/modules/home/model/categoryModel.dart';
-import 'package:grocery/src/modules/home/model/productItem.dart';
+import 'package:grocery/src/modules/home/model/exclusiveOfferModel.dart';
 import 'package:grocery/src/modules/home/view/productDetail.dart';
 import 'package:grocery/src/widgets/widgets.dart';
 
@@ -133,19 +133,19 @@ class HomeCategory extends StatelessWidget {
     required this.category,
   }) : super(key: key);
 
-  final CategoryModel category;
+  final List<CategoryModel>? category;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 135.0,
       child: ListView.builder(
-        itemCount: category.result.length,
+        itemCount: category!.length,
         scrollDirection: Axis.horizontal,
         physics: BouncingScrollPhysics(),
         itemBuilder: (context, index) {
-          var model = category.result[index];
-          return CategoryWidget(title: model.title, imageUrl: model.imageUrl);
+          var model = category![index];
+          return CategoryWidget(title: model.name!, imageUrl: "");
         },
       ),
     );
@@ -227,7 +227,7 @@ class ProductItem extends StatelessWidget {
   }) : super(key: key);
 
   final Size size;
-  final ProductResultModel productResultModel;
+  final ProductExclusiveItemModel productResultModel;
   final Function(String id) itemOnClick;
   final Function(String productID) addToCartOnClick;
 
@@ -241,16 +241,16 @@ class ProductItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(appDmPrimary),
         radius: appDmPrimary,
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return ProductDetailView(
-                  productResultModel: productResultModel,
-                );
-              },
-            ),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) {
+          //       return ProductDetailView(
+          //         productResultModel: productResultModel,
+          //       );
+          //     },
+          //   ),
+          // );
           return itemOnClick('id');
         },
         child: Container(
@@ -266,7 +266,7 @@ class ProductItem extends StatelessWidget {
                 margin: EdgeInsets.all(appDmPrimary),
                 child: FadeImageCart(
                   height: itemSize.height * 0.5,
-                  imageUrl: productResultModel.imageUrl,
+                  imageUrl: productResultModel.thumbnail!,
                 ),
               ),
               Expanded(
@@ -280,7 +280,7 @@ class ProductItem extends StatelessWidget {
                     children: [
                       Container(
                         child: Text(
-                          productResultModel.title,
+                          productResultModel.name!,
                           overflow: TextOverflow.clip,
                           maxLines: 1,
                           style: GoogleFonts.khula(
@@ -290,7 +290,7 @@ class ProductItem extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "7pcs, ${productResultModel.unit.title}",
+                        "${productResultModel.quantity}, ${productResultModel.packaging}",
                         style: GoogleFonts.khula(
                           fontWeight: FontWeight.w400,
                           fontSize: 14,
@@ -305,7 +305,7 @@ class ProductItem extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '${productResultModel.scale[0].itemPrice.price} \$',
+                                  '${productResultModel.price}\$',
                                   style: GoogleFonts.khula(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
@@ -447,7 +447,7 @@ class BtnSubmitDataToCart extends StatelessWidget {
                                   context.read<ProductBloc>().add(
                                         ProductAddToCartEvent(
                                           productID:
-                                              widget.productResultModel.id,
+                                              widget.productResultModel.id!,
                                           qty: qty,
                                         ),
                                       );
@@ -511,7 +511,7 @@ class ProductDetailAppBar extends StatelessWidget {
                 ),
               ),
               child: AppFadImage(
-                url: widget.productResultModel.imageUrl,
+                url: widget.productResultModel.imageUrl!,
               )),
         ),
       ),

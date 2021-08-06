@@ -102,14 +102,21 @@ class FadeImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FadeInImage.assetNetwork(
-      placeholder: "asset/images/comfortPlaceholder.png",
-      image: imageUrl,
-      fadeInCurve: Curves.easeInCirc,
-      fadeOutCurve: Curves.easeOutCirc,
-      width: 65,
-      height: 65,
-    );
+    if (imageUrl.isNotEmpty)
+      return FadeInImage.assetNetwork(
+        placeholder: "asset/images/comfortPlaceholder.png",
+        image: imageUrl,
+        fadeInCurve: Curves.easeInCirc,
+        fadeOutCurve: Curves.easeOutCirc,
+        width: 65,
+        height: 65,
+      );
+    else
+      return Image.asset(
+        'asset/images/comfortPlaceholder.png',
+        width: 65,
+        height: 65,
+      );
   }
 }
 
@@ -126,6 +133,7 @@ class FadeImageCart extends StatelessWidget {
     //   fit: BoxFit.fill,
     //   height: height,
     // );
+
     return FadeInImage.assetNetwork(
       placeholder: "asset/images/comfortPlaceholder.png",
       image: imageUrl,

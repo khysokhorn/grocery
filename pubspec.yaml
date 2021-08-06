@@ -26,7 +26,7 @@ dependencies:
   carousel_slider: ^4.0.0
   scroll_to_index: ^2.0.0
   visibility_detector: ^0.2.0
-  flutter_bloc: ^7.0.1
+  flutter_bloc: ^7.1.0
   equatable: ^2.0.3
   http:
   bloc: ^7.0.0

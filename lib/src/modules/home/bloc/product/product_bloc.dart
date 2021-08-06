@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:grocery/src/modules/home/model/categoryModel.dart';
+import 'package:grocery/src/modules/home/model/exclusiveOfferModel.dart';
 import 'package:grocery/src/modules/home/model/productItem.dart';
 import 'package:grocery/src/repository/grocerRepo.dart';
 import 'package:http/http.dart';
 
 part 'product_event.dart';
+
 part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
@@ -59,6 +62,27 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       //   } else
       //     yield ProductErrorState(errorMessage: "Error");
       // }
+    } else if (event is ProductExclusiveOfferEvent) {
+      yield GetProductExclusiveOfferLoading();
+      Response? response = await repo.getProductExclusiveOffer();
+      if (response!.statusCode == 200) {
+        var exclusiveResult = exclusiveProductModelFromJson(response.body);
+        yield GetProductExclusiveOfferSuccess(
+            exclusiveResultModel: exclusiveResult);
+      } else {
+        yield GetProductExclusiveOfferError(
+            errorMessage: "Something went wrong");
+      }
+    } else if (event is GetProductCategoryEvent) {
+      yield GetProductCategoryLoadingState();
+      Response? response = await repo.getProductCategories();
+      if (response!.statusCode == 200) {
+        print("===> Category res ${response.body}");
+        var categories = categoryModelFromJson(response.body);
+        yield GetProductCategorySuccess(categories: categories);
+      } else {
+        yield GetProductCategoryError(errorMessage: "Something went wrong");
+      }
     }
   }
 }

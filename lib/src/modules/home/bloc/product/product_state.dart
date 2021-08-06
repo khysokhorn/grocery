@@ -62,10 +62,6 @@ class AddToCartLoadingState extends ProductState{
 
 // end add to cart state
 
-
-
-
-
 class QtyState extends ProductState {
   final int qty;
 
@@ -74,3 +70,55 @@ class QtyState extends ProductState {
   @override
   List<Object?> get props => [qty];
 }
+
+// exclusive product
+class GetProductExclusiveOfferSuccess extends ProductState {
+  final ExclusiveProductModel exclusiveResultModel;
+
+  GetProductExclusiveOfferSuccess({required this.exclusiveResultModel});
+
+  @override
+  List<Object?> get props => [exclusiveResultModel];
+}
+
+class GetProductExclusiveOfferLoading extends ProductState {
+  @override
+  List<Object?> get props => [];
+}
+
+class GetProductExclusiveOfferError extends ProductState {
+  final String errorMessage;
+
+  GetProductExclusiveOfferError({required this.errorMessage});
+
+  @override
+  List<Object?> get props => [];
+}
+// ===> end exclusive product
+
+// product category
+class GetProductCategorySuccess extends ProductState {
+  final List<CategoryModel> categories;
+
+  GetProductCategorySuccess({required this.categories});
+
+  @override
+  List<Object?> get props => [categories];
+}
+
+class GetProductCategoryError extends ProductState {
+  final String errorMessage;
+
+  GetProductCategoryError({required this.errorMessage});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [errorMessage];
+}
+
+class GetProductCategoryLoadingState extends ProductState {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
+// ===> end product category

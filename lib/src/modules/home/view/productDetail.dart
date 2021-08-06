@@ -100,7 +100,7 @@ class ProductDescription extends StatelessWidget {
               height: appDmPrimary,
             ),
             Text(
-              "${productResultModel.unit.title}",
+              "${productResultModel.unit!.title}",
               style: appSubTitle,
             ),
             Container(
@@ -118,7 +118,7 @@ class ProductDescription extends StatelessWidget {
                       if (state is QtyState) {
                         print("==> qty item ${state.qty}");
                         double price = double.parse(
-                              productResultModel.scale[0].itemPrice.price,
+                              productResultModel.scale![0].itemPrice!.price!,
                             ) *
                             state.qty;
                         return Text(
@@ -132,7 +132,7 @@ class ProductDescription extends StatelessWidget {
                         );
                       }
                       return Text(
-                          "\$ ${productResultModel.scale[0].itemPrice.price}",
+                          "\$ ${productResultModel.scale![0].itemPrice!.price}",
                           style: TextStyle(
                             color: AppConstrant.appColorRed,
                             fontWeight: FontWeight.bold,

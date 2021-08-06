@@ -4,46 +4,41 @@
 
 import 'dart:convert';
 
-CategoryModel categoryModelFromJson(String str) =>
-    CategoryModel.fromJson(json.decode(str));
+List<CategoryModel> categoryModelFromJson(String? str) =>
+    List<CategoryModel>.from(
+        json.decode(str!).map((x) => CategoryModel.fromJson(x)));
 
-String categoryModelToJson(CategoryModel data) => json.encode(data.toJson());
+String categoryModelToJson(List<CategoryModel> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class CategoryModel {
   CategoryModel({
-    required this.result,
+    required this.id,
+    required this.parentId,
+    required this.name,
+    required this.thumbnail,
+    required this.unitType,
   });
 
-  List<CategoryResultModel> result;
+  int? id;
+  dynamic? parentId;
+  String? name;
+  String? thumbnail;
+  String? unitType;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
-        result: List<CategoryResultModel>.from(
-            json["result"].map((x) => CategoryResultModel.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "result": List<dynamic>.from(result.map((x) => x.toJson())),
-      };
-}
-
-class CategoryResultModel {
-  CategoryResultModel(
-      {required this.id, required this.title, required this.imageUrl});
-
-  int id;
-  String title;
-  String imageUrl;
-
-  factory CategoryResultModel.fromJson(Map<String, dynamic> json) =>
-      CategoryResultModel(
         id: json["id"],
-        title: json["title"],
-        imageUrl: json["image_url"],
+        parentId: json["parent_id"],
+        name: json["name"],
+        thumbnail: json["thumbnail"],
+        unitType: json["unit_type"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "title": title,
-        "image_url": imageUrl,
+        "parent_id": parentId,
+        "name": name,
+        "thumbnail": thumbnail,
+        "unit_type": unitType,
       };
 }

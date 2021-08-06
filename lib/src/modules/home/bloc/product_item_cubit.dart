@@ -10,7 +10,7 @@ class ProductItemCubit extends Cubit<ProductItem?> {
   void getProduct() async => emit(await _grocerRepo.getProductItem());
 }
 
-class CategoryCubit extends Cubit<CategoryModel?> {
+class CategoryCubit extends Cubit<List<CategoryModel>?> {
   CategoryCubit() : super(null);
   GrocerRepo _grocerRepo = GrocerRepo();
 

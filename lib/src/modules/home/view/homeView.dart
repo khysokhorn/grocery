@@ -7,9 +7,6 @@ import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/modules/cart/cartView.dart';
 import 'package:grocery/src/modules/favorite/view/favoriteView.dart';
 import 'package:grocery/src/modules/home/bloc/product/product_bloc.dart';
-import 'package:grocery/src/modules/home/bloc/product_item_cubit.dart';
-import 'package:grocery/src/modules/home/model/categoryModel.dart';
-import 'package:grocery/src/modules/home/view/productDetail.dart';
 import 'package:grocery/src/modules/home/widgets/homeWidget.dart';
 import 'package:grocery/src/repository/grocerRepo.dart';
 import 'package:grocery/src/utils/services/localServices/hiveHelper.dart';
@@ -40,9 +37,8 @@ class _HomeViewState extends State<HomeView> {
         child: RepositoryProvider(
           create: (context) => GrocerRepo(),
           child: BlocProvider<ProductBloc>(
-            create: (context) => ProductBloc(
-              context.read<GrocerRepo>(), 0
-            ),
+            lazy: true,
+            create: (context) => ProductBloc(context.read<GrocerRepo>(), 0),
             child: Container(
               margin: EdgeInsets.symmetric(
                 horizontal: appDmPrimary,
@@ -56,39 +52,15 @@ class _HomeViewState extends State<HomeView> {
                   // banner
                   HomeBanner(),
                   // category
-                  SliverToBoxAdapter(
-                    child: BlocProvider<CategoryCubit>(
-                        create: (context) => CategoryCubit()..getCategory(),
-                        child: BlocBuilder<CategoryCubit, CategoryModel?>(
-                          builder: (context, categoryModel) {
-                            print("category $categoryModel");
-                            if (categoryModel != null) {
-                              return HomeCategory(
-                                category: categoryModel,
-                              );
-                            }
-                            return Container();
-                          },
-                        )),
-                  ),
+                  CategoryProduct(),
                   // exclusive with see all
-                  SliverToBoxAdapter(
-                    child: TittleWithSeeAll(
-                      title: "Exclusive Offer",
-                      btnTitle: "See All",
-                      seeAllOnClick: () {},
-                    ),
+                  TittleWithSeeAllSliver(
+                    title: "Exclusive offer",
                   ),
                   // list of exclusive
                   ExclusiveOfferList(itemSize: itemSize, size: size),
                   // best with see all
-                  SliverToBoxAdapter(
-                    child: TittleWithSeeAll(
-                      title: "Best Sell",
-                      btnTitle: "See All",
-                      seeAllOnClick: () {},
-                    ),
-                  ),
+                  TittleWithSeeAllSliver(title: "Best Sell"),
                   // list of best sale
                   SliverToBoxAdapter(
                     child: Container(
@@ -120,13 +92,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   // category
-                  SliverToBoxAdapter(
-                    child: TittleWithSeeAll(
-                      title: "Groceries",
-                      btnTitle: "See All",
-                      seeAllOnClick: () {},
-                    ),
-                  ),
+                  TittleWithSeeAllSliver(title: "Groceries"),
                   SliverToBoxAdapter(
                     child: Container(
                       height: size.height * 0.15,
@@ -155,6 +121,55 @@ class _HomeViewState extends State<HomeView> {
   }
 }
 
+class TittleWithSeeAllSliver extends StatelessWidget {
+  const TittleWithSeeAllSliver({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: TittleWithSeeAll(
+        title: title,
+        btnTitle: "See All",
+        seeAllOnClick: () {},
+      ),
+    );
+  }
+}
+
+class CategoryProduct extends StatelessWidget {
+  const CategoryProduct({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    context.read<ProductBloc>()..add(GetProductCategoryEvent());
+    return SliverToBoxAdapter(
+      child: BlocBuilder<ProductBloc, ProductState>(
+        builder: (context, state) {
+          print("=====> category state $state");
+          if (state is GetProductCategorySuccess) {
+            print("category state success  ${state.categories}");
+            return HomeCategory(
+              category: state.categories,
+            );
+          } else if (state is GetProductCategoryLoadingState) {
+            return HomeCategory(category: []);
+          } else if (state is GetProductCategoryError) {
+            return Text(state.errorMessage);
+          } else
+            return Text("else ");
+        },
+      ),
+    );
+  }
+}
+
 class ExclusiveOfferList extends StatelessWidget {
   const ExclusiveOfferList({
     Key? key,
@@ -167,26 +182,26 @@ class ExclusiveOfferList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ProductBloc>()..add(GetProductEvent());
+    //context.read<ProductBloc>()..add(ProductExclusiveOfferEvent());
     return SliverToBoxAdapter(
       child: Container(
         height: itemSize.height + appDmPrimary,
         child: BlocBuilder<ProductBloc, ProductState>(
           builder: (context, state) {
-            if (state is ProductLoadedSuccessState) {
+            if (state is GetProductExclusiveOfferSuccess) {
               return ListView.builder(
                 scrollDirection: Axis.horizontal,
                 physics: BouncingScrollPhysics(),
-                itemCount: state.productItem.result.length,
+                itemCount: state.exclusiveResultModel.result!.items!.length,
                 itemBuilder: (context, index) {
+                  var model = state.exclusiveResultModel.result!.items![index];
                   return ProductItem(
-                    productResultModel: state.productItem.result[index],
+                    productResultModel: model,
                     size: size,
                     addToCartOnClick: (productID) {
                       print("Product id $productID");
                     },
                     itemOnClick: (productID) {
-
                       print(
                         ("item have click "),
                       );
