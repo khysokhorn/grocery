@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/modules/cart/cartView.dart';
 import 'package:grocery/src/modules/favorite/view/favoriteView.dart';
+import 'package:grocery/src/modules/home/bloc/category/category_bloc.dart';
 import 'package:grocery/src/modules/home/bloc/product/product_bloc.dart';
 import 'package:grocery/src/modules/home/widgets/homeWidget.dart';
 import 'package:grocery/src/repository/grocerRepo.dart';
@@ -36,9 +37,17 @@ class _HomeViewState extends State<HomeView> {
       body: SafeArea(
         child: RepositoryProvider(
           create: (context) => GrocerRepo(),
-          child: BlocProvider<ProductBloc>(
-            lazy: true,
-            create: (context) => ProductBloc(context.read<GrocerRepo>(), 0),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider<ProductBloc>(
+                create: (BuildContext context) =>
+                    ProductBloc(context.read<GrocerRepo>(), 0),
+              ),
+              BlocProvider<CategoryBloc>(
+                create: (BuildContext context) =>
+                    CategoryBloc(context.read<GrocerRepo>()),
+              ),
+            ],
             child: Container(
               margin: EdgeInsets.symmetric(
                 horizontal: appDmPrimary,
@@ -148,9 +157,9 @@ class CategoryProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ProductBloc>()..add(GetProductCategoryEvent());
+    context.read<CategoryBloc>()..add(GetCategoryEvent());
     return SliverToBoxAdapter(
-      child: BlocBuilder<ProductBloc, ProductState>(
+      child: BlocBuilder<CategoryBloc, ProductState>(
         builder: (context, state) {
           print("=====> category state $state");
           if (state is GetProductCategorySuccess) {
@@ -182,7 +191,7 @@ class ExclusiveOfferList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //context.read<ProductBloc>()..add(ProductExclusiveOfferEvent());
+    context.read<ProductBloc>()..add(ProductExclusiveOfferEvent());
     return SliverToBoxAdapter(
       child: Container(
         height: itemSize.height + appDmPrimary,

@@ -241,16 +241,16 @@ class ProductItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(appDmPrimary),
         radius: appDmPrimary,
         onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) {
-          //       return ProductDetailView(
-          //         productResultModel: productResultModel,
-          //       );
-          //     },
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return ProductDetailView(
+                  productResultModel: productResultModel,
+                );
+              },
+            ),
+          );
           return itemOnClick('id');
         },
         child: Container(
@@ -511,7 +511,7 @@ class ProductDetailAppBar extends StatelessWidget {
                 ),
               ),
               child: AppFadImage(
-                url: widget.productResultModel.imageUrl!,
+                url: widget.productResultModel.thumbnail!,
               )),
         ),
       ),

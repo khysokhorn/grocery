@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:grocery/src/config/themes/light_theme.dart';
 import 'package:grocery/src/constants/app_constrant.dart';
+import 'package:grocery/src/constants/app_constrant.dart';
+import 'package:grocery/src/constants/app_constrant.dart';
 import 'package:grocery/src/modules/home/bloc/product/product_bloc.dart';
-import 'package:grocery/src/modules/home/model/productItem.dart';
+import 'package:grocery/src/modules/home/model/exclusiveOfferModel.dart';
 import 'package:grocery/src/modules/home/widgets/homeWidget.dart';
 import 'package:grocery/src/repository/grocerRepo.dart';
 import 'package:grocery/src/widgets/widgets.dart';
@@ -13,7 +15,7 @@ import 'package:grocery/src/widgets/widgets.dart';
 class ProductDetailView extends StatefulWidget {
   const ProductDetailView({Key? key, required this.productResultModel})
       : super(key: key);
-  final ProductResultModel productResultModel;
+  final ProductExclusiveItemModel productResultModel;
 
   @override
   _ProductDetailViewState createState() => _ProductDetailViewState();
@@ -25,7 +27,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    print("product detail ${widget.productResultModel.imageUrl}");
+    print("product detail ${widget.productResultModel.thumbnail}");
     return Scaffold(
       body: BlocProvider(
         create: (context) => ProductBloc(context.read<GrocerRepo>(), 1),
@@ -73,7 +75,7 @@ class ProductDescription extends StatelessWidget {
     required this.productResultModel,
     required this.qtyCallBack,
   }) : super(key: key);
-  final ProductResultModel productResultModel;
+  final ProductExclusiveItemModel productResultModel;
   final Function(int qty) qtyCallBack;
 
   @override
@@ -91,7 +93,7 @@ class ProductDescription extends StatelessWidget {
           children: [
             // start
             Text(
-              "${productResultModel.title}",
+              "${productResultModel.name}",
               style: TextStyle(
                 color: Colors.black,
               ),
@@ -100,7 +102,7 @@ class ProductDescription extends StatelessWidget {
               height: appDmPrimary,
             ),
             Text(
-              "${productResultModel.unit!.title}",
+              "${productResultModel.packaging}",
               style: appSubTitle,
             ),
             Container(
@@ -117,12 +119,11 @@ class ProductDescription extends StatelessWidget {
                     builder: (context, state) {
                       if (state is QtyState) {
                         print("==> qty item ${state.qty}");
-                        double price = double.parse(
-                              productResultModel.scale![0].itemPrice!.price!,
-                            ) *
-                            state.qty;
+                        double price = (productResultModel.price! * state.qty);
                         return Text(
-                          state is QtyState ? "\$ $price" : "",
+                          state is QtyState
+                              ? "\$ ${price.toStringAsFixed(appCurrencyPrecision)}"
+                              : "",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppConstrant.appColorRed,
@@ -132,7 +133,7 @@ class ProductDescription extends StatelessWidget {
                         );
                       }
                       return Text(
-                          "\$ ${productResultModel.scale![0].itemPrice!.price}",
+                          "\$ ${productResultModel.price}",
                           style: TextStyle(
                             color: AppConstrant.appColorRed,
                             fontWeight: FontWeight.bold,
@@ -147,11 +148,7 @@ class ProductDescription extends StatelessWidget {
             Container(
               margin: const EdgeInsets.symmetric(vertical: appDmPrimary),
               child: Text(
-                "Donec sollicitudin molestie malesuada. Curabitur non nulla sit amet"
-                " nisl tempus convallis quis ac lectus. Praesent sapien massa,"
-                " convallis a pellentesque nec, egestas non nisi. Vestibulum "
-                "ante ipsum primis in faucibus orci luctus et ultrices posuere "
-                "cubilia Curae; Donec velit neque,",
+                "${productResultModel.description}",
                 style: TextStyle(color: AppConstrant.appColorGra),
               ),
             ),

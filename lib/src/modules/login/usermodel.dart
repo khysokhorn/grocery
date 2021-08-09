@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:hive/hive.dart';
 
 part 'usermodel.g.dart';
+
 UserModel userModelFromJson(String? str) =>
     UserModel.fromJson(json.decode(str!));
 

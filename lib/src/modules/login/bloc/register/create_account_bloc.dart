@@ -34,9 +34,10 @@ class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
         // yield LoginSuccessState(userModel: user);
         print("code ${res!.statusCode}");
         if (res.statusCode >= 200 && res.statusCode <= 299) {
-          var usr = userModelFromJson(res.body);
+          var userInfoModel = userModelFromJson(res.body);
           print("success body ===> ${res.body}");
-          yield LoginSuccessState(userModel: usr);
+          HiveHelper().addUser(userInfoModel);
+          yield LoginSuccessState(userModel: userInfoModel);
         } else {
           print("error body ===> ${res.body}");
           yield CreateAccountErrorState(res.body);

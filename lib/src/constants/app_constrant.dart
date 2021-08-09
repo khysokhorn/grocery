@@ -16,6 +16,7 @@ class AppConstrant {
 //============== dimension ==============//
 const double appDmPrimary = 15.0;
 const double appDmBannerHeight = 150.0;
+const int appCurrencyPrecision = 2;
 
 class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {

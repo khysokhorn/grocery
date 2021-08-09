@@ -27,20 +27,6 @@ class UserRepository extends BaseRepository implements UserAccount   {
   Future<Response?>? login(
       {required String userEmail, required String password}) async {
     Response? res;
-    // await baseRequest
-    //     .post1(
-    //       APICONST.login,
-    //       {
-    //         "email": userEmail,
-    //         "password": password,
-    //       },
-
-    //     )
-    //     .then((String? value) => userModel = userModelFromJson(value!))
-    //     .catchError((error) {
-    //       print("===> error with $error");
-    //     });
-    // print("===>user from json $userModel");
     await baseRequest.post1(
         APICONST.login,
         {

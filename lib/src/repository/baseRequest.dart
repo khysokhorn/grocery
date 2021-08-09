@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:grocery/src/constants/api_path.dart';
+import 'package:grocery/src/utils/services/localServices/hiveHelper.dart';
 import 'package:http/http.dart' as http;
 
-class AppBaseRequest {
+import './../modules/login/usermodel.dart';
 
+class AppBaseRequest {
   final _baseUrl = APICONST.BASE_URL;
   http.Client _httpClient = http.Client();
 
@@ -107,14 +109,22 @@ class AppBaseRequest {
     res(responses);
   }
 
-  Map<String, String> _header() => {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': 'application/json',
-        'Authorization': APICONST.bearerToken,
-        'connection': 'keep-alive',
-        'Accept-Encoding': 'gzip, deflate, br'
-        // 'cookie': "${_hiveLocalDB.getLoinModel().cookie}"
-      };
+  Map<String, String> _header() {
+    String token = "";
+    if (HiveHelper().getUserModel() != null) {
+      UserModel user = HiveHelper().getUserModel()!;
+      token = user.token!;
+      print("===> token $token");
+    }
+
+    return {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+      'connection': 'keep-alive',
+      'Authorization': "Bearer $token",
+      'Accept-Encoding': 'gzip, deflate, br'
+    };
+  }
 
   void closeHttp() {
     _httpClient.close();

@@ -9,7 +9,6 @@ import 'package:grocery/src/repository/grocerRepo.dart';
 import 'package:http/http.dart';
 
 part 'product_event.dart';
-
 part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
@@ -65,6 +64,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     } else if (event is ProductExclusiveOfferEvent) {
       yield GetProductExclusiveOfferLoading();
       Response? response = await repo.getProductExclusiveOffer();
+      Response? resCategory = await repo.getProductCategories();
       if (response!.statusCode == 200) {
         var exclusiveResult = exclusiveProductModelFromJson(response.body);
         yield GetProductExclusiveOfferSuccess(
@@ -72,16 +72,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       } else {
         yield GetProductExclusiveOfferError(
             errorMessage: "Something went wrong");
-      }
-    } else if (event is GetProductCategoryEvent) {
-      yield GetProductCategoryLoadingState();
-      Response? response = await repo.getProductCategories();
-      if (response!.statusCode == 200) {
-        print("===> Category res ${response.body}");
-        var categories = categoryModelFromJson(response.body);
-        yield GetProductCategorySuccess(categories: categories);
-      } else {
-        yield GetProductCategoryError(errorMessage: "Something went wrong");
       }
     }
   }

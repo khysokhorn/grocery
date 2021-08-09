@@ -179,7 +179,6 @@ class FormLogin extends StatelessWidget {
         } else if (state is LoginSuccessState) {
           var user = state.userModel!;
           print("==> user $user");
-          HiveHelper().addUser(state.userModel!);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(
                   "Login successful with user name ${state.userModel!.user!.name}")));
