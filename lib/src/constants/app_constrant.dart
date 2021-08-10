@@ -35,10 +35,8 @@ class ItemSize extends Size {
       : super(width, height);
 
   @override
-  // TODO: implement height
-  double get height => super.height * 0.37;
+  double get height => super.height * 0.35;
 
   @override
-  // TODO: implement width
-  double get width => super.width * 0.50;
+  double get width => super.width * 0.45;
 }

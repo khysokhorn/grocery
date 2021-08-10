@@ -12,7 +12,6 @@ import 'package:grocery/src/modules/home/widgets/homeWidget.dart';
 import 'package:grocery/src/repository/grocerRepo.dart';
 import 'package:grocery/src/utils/services/localServices/hiveHelper.dart';
 import 'package:grocery/src/utils/ui/app_dialog.dart';
-
 import '../../../../main.dart';
 
 class HomeView extends StatefulWidget {
