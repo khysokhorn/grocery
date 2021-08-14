@@ -67,6 +67,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       Response? resCategory = await repo.getProductCategories();
       if (response!.statusCode == 200) {
         var exclusiveResult = exclusiveProductModelFromJson(response.body);
+        print(
+            "===> 🥰 product exclusive ${exclusiveResult.result!.items!.map((e)
+            => print("==> item ${e.barcode}"))}");
         yield GetProductExclusiveOfferSuccess(
             exclusiveResultModel: exclusiveResult);
       } else {

@@ -17,9 +17,9 @@ class ExclusiveProductModel {
 
   ProductExclusiveResultModel? result;
 
-  factory ExclusiveProductModel.fromJson(Map<String, dynamic> json) =>
+  factory ExclusiveProductModel.fromJson(Map<String, dynamic>? json) =>
       ExclusiveProductModel(
-        result: ProductExclusiveResultModel.fromJson(json["result"]),
+        result: ProductExclusiveResultModel.fromJson(json!["result"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,8 +46,8 @@ class ProductExclusiveResultModel {
   int? isActivated;
   List<ProductExclusiveItemModel>? items;
 
-  factory ProductExclusiveResultModel.fromJson(Map<String, dynamic>? json) => ProductExclusiveResultModel(
-        id: json!["id"],
+  factory ProductExclusiveResultModel.fromJson(Map<String, dynamic> json) => ProductExclusiveResultModel(
+        id: json["id"],
         title: json["title"],
         thumbnail: json["thumbnail"],
         startAt: json["start_at"],
@@ -94,15 +94,15 @@ class ProductExclusiveItemModel {
   String? thumbnail;
   String? description;
 
-  factory ProductExclusiveItemModel.fromJson(Map<String, dynamic>? json) => ProductExclusiveItemModel(
-        id: json!["id"],
+  factory ProductExclusiveItemModel.fromJson(Map<String, dynamic> json) => ProductExclusiveItemModel(
+        id: json["id"],
         categoryId: json["category_id"],
         name: json["name"],
         netWeight: json["net_weight"],
         quantity: json["quantity"],
         packaging: json["packaging"],
         barcode: json["barcode"],
-        price: json["price"].toDouble(),
+        price: json["price"],
         origin: json["origin"],
         thumbnail: json["thumbnail"],
         description: json["description"],
